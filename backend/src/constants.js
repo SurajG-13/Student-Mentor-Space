@@ -1,1 +1,1 @@
-export const DB_NAME = "Student Mentor Space";
+export const DB_NAME = "Student-Mentor-Space";

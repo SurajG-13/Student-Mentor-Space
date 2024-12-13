@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import axiosInstance from "../../utilities/axiosInstance"; // Assuming you want to use axiosInstance
+import axiosInstance from "../../utilities/axiosInstance.js";
 
 const Register = () => {
    const [userData, setUserData] = useState({
-      name: "",
-      email: "",
-      department: "", // Separate department from services
-      role: "", // Separate role from services
-      teacherCode: "", // New field for teacher code
+      fullName: "",
+      eMail: "",
+      userPassword: "",
+      confirmPassword: "",
+      department: "",
+      role: "",
+      teacherCode: "",
    });
 
-   // Handle input changes
    const handleChange = (e) => {
       const { name, value } = e.target;
       setUserData({
@@ -20,41 +21,50 @@ const Register = () => {
       });
    };
 
-   // Handle department selection
    const handleDepartmentSelect = (department) => {
       setUserData((prevData) => ({
          ...prevData,
-         department, // Replace selected department
+         department,
       }));
    };
 
-   // Handle role selection
    const handleRoleSelect = (role) => {
       setUserData((prevData) => ({
          ...prevData,
-         role, // Replace selected role
-         // Reset teacher code if switching to Student
+         role,
+
          teacherCode: role === "Teacher" ? prevData.teacherCode : "",
       }));
    };
 
-   // Handle form submission
    const handleSubmit = async (e) => {
       e.preventDefault();
 
+      if (userData.userPassword !== userData.confirmPassword) {
+         alert("Passwords do not match!");
+         return;
+      }
+
       try {
-         const response = await axiosInstance.post(
-            "/api/v1/users/register", // Assuming your axiosInstance is configured with the base URL
-            userData,
-            {
-               headers: {
-                  "Content-Type": "application/json",
-               },
-            }
-         );
+         const response = await axiosInstance.post("users/register", userData, {
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
 
          console.log("User registered:", response.data);
-         // Handle success (redirect, show message, etc.)
+
+         setUserData({
+            fullName: "",
+            eMail: "",
+            userPassword: "",
+            confirmPassword: "",
+            department: "",
+            role: "",
+            teacherCode: "",
+         });
+         // Optionally redirect to login or home page
+         // navigate("/login");
       } catch (error) {
          console.error(
             "Error registering user:",
@@ -71,17 +81,17 @@ const Register = () => {
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.5 }}
-               className="p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-lg shadow-lg max-w-lg w-full"
+               className="p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-lg max-w-lg w-full"
             >
                <div className="mb-6">
-                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                  <label className="block dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      Full Name
                   </label>
                   <input
                      type="text"
-                     name="name"
+                     name="fullName"
                      placeholder="Full Name"
-                     value={userData.name}
+                     value={userData.fullName}
                      onChange={handleChange}
                      className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                      required
@@ -94,9 +104,39 @@ const Register = () => {
                   </label>
                   <input
                      type="email"
-                     name="email"
+                     name="eMail"
                      placeholder="you@xyz.com"
-                     value={userData.email}
+                     value={userData.eMail}
+                     onChange={handleChange}
+                     className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                     required
+                  />
+               </div>
+
+               <div className="mb-6">
+                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                     Password
+                  </label>
+                  <input
+                     type="password"
+                     name="userPassword"
+                     placeholder="Make sure to remember it!"
+                     value={userData.userPassword}
+                     onChange={handleChange}
+                     className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                     required
+                  />
+               </div>
+
+               <div className="mb-6">
+                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                     Confirm Password
+                  </label>
+                  <input
+                     type="password"
+                     name="confirmPassword"
+                     placeholder="Confirm your password"
+                     value={userData.confirmPassword}
                      onChange={handleChange}
                      className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                      required
@@ -145,7 +185,6 @@ const Register = () => {
                   </div>
                </div>
 
-               {/* Conditionally render the teacher code input */}
                {userData.role === "Teacher" && (
                   <div className="mb-6">
                      <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">

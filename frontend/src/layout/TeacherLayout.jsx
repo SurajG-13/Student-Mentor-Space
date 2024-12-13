@@ -1,15 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { ThemeProvider } from "../context/Theme";
+import NoAccessPage from "../utilities/NoAccessPage";
 
 const TeacherLayout = ({ children }) => {
-   const role = useSelector((state) => state.user.role); // Get the user role from Redux state
+   const { isLoggedIn } = useSelector((state) => state.auth); // Get isLoggedIn from authSlice
+   const { role } = useSelector((state) => state.user); // Get role from userSlice
 
-   if (role !== "teacher") {
-      return <div>You are not authorized to view this page</div>;
+   // Check if the user is logged in and has the "Teacher" role
+   if (!isLoggedIn || role !== "Teacher") {
+      return <NoAccessPage />; // If not logged in or not a teacher, show NoAccessPage
    }
 
    return (

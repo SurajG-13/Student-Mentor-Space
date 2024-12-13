@@ -130,18 +130,7 @@ export default function Header() {
                               About
                            </NavLink>
                         </li>
-                        <li
-                           ref={dropdownRef}
-                           onMouseEnter={handleMouseEnter}
-                           className="relative"
-                        >
-                           <span
-                              className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100
-                  hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-orange-700 dark:text-white lg:p-0 cursor-pointer"
-                           >
-                              Resources
-                           </span>
-                        </li>
+
                         <li>
                            <label className="relative inline-flex items-center cursor-pointer">
                               <button onClick={onChangeTheme}>

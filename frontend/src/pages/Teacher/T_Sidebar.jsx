@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import SidebarLink from "../../components/Sidebar/SidebarLink";
 
-// import {
-//   Cog6ToothIcon,
-//   IdentificationIcon,
-//   BookOpenIcon,
-//   MagnifyingGlassIcon,
-//   CheckCircleIcon,
-// } from "@heroicons/react/24/outline";
+import {
+   Cog6ToothIcon,
+   IdentificationIcon,
+   BookOpenIcon,
+   MagnifyingGlassIcon,
+   CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 
 const containerVariants = {
    close: {

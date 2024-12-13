@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { ApiError } from "../utils/ApiError.js";
 
 const userSchema = new Schema(
    {
@@ -18,6 +19,11 @@ const userSchema = new Schema(
          lowercase: true,
          trim: true,
          match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
+      },
+
+      role: {
+         type: String,
+         required: true,
       },
 
       avatar: {
@@ -62,8 +68,12 @@ userSchema.pre("save", async function (next) {
 
 // Password comparison method
 
-userSchema.methods.isuserPasswordCorrect = async function (userPassword) {
-   return await bcrypt.compare(userPassword, this.userPassword);
+userSchema.methods.isUserPasswordCorrect = async function (userPassword) {
+   try {
+      return await bcrypt.compare(userPassword, this.userPassword);
+   } catch (error) {
+      throw new ApiError(400, "Error comparing passwords");
+   }
 };
 
 // JWT Token generation

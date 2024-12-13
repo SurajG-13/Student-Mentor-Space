@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const externalAssesmentSchema = new Schema(
+const externalAssessmentSchema = new Schema(
    {
       department: {
          type: mongoose.Schema.Types.ObjectId,
@@ -14,7 +14,7 @@ const externalAssesmentSchema = new Schema(
    }
 );
 
-export const externalAssesment = mongoose.model(
-   "externalAssesment",
-   externalAssesmentSchema
+export const externalAssessment = mongoose.model(
+   "externalAssessment",
+   externalAssessmentSchema
 );

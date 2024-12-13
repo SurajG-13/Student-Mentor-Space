@@ -3,9 +3,17 @@ import mongoose, { Schema } from "mongoose";
 const studentSchema = new Schema(
    {
       studentName: {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "User",
+         type: String,
+      },
+
+      eMail: {
+         type: String,
          required: true,
+         unique: true,
+         lowercase: true,
+         trim: true,
+         index: true,
+         match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
       },
 
       department: {
@@ -14,35 +22,59 @@ const studentSchema = new Schema(
          required: true,
       },
 
-      registraionNumber: {
+      registrationNumber: {
+         type: Number,
+         required: true,
+         unique: true,
+      },
+
+      rollNumber: {
+         type: Number,
+         required: true,
+         unique: true,
+      },
+
+      admissionYear: {
          type: Number,
          required: true,
       },
 
-      semester: {
+      contactNumber: {
          type: Number,
          required: true,
       },
 
-      marks: {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "Marks",
-      },
-
-      totalMarks: {
-         type: Number,
-         default: 0,
-      },
-
-      overallGrade: {
-         type: String,
-         enum: ["A", "B", "C", "D", "F"],
-         default: "C",
-      },
-
-      createdAt: {
+      dateOfBirth: {
          type: Date,
-         default: Date.now,
+         required: true,
+      },
+
+      localArea: {
+         type: Number,
+         required: true,
+      },
+
+      postOffice: {
+         type: Number,
+         required: true,
+      },
+
+      pinCode: {
+         type: Number,
+         required: true,
+      },
+
+      xMarks: {
+         type: Number,
+         required: true,
+      },
+
+      xiiMarks: {
+         type: Number,
+      },
+
+      diplomaMarks: {
+         type: Number,
       },
    },
    {

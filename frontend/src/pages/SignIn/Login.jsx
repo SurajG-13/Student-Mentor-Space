@@ -1,130 +1,90 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { authActions } from "../../redux/features/authSlice"; // Adjust import according to your store setup
-import { userActions } from "../../redux/features/userSlice"; // Adjust import according to your store setup
-import { useNavigate } from "react-router-dom"; // Using useNavigate for React Router v6
+import { authActions } from "../../redux/features/authSlice"; // Importing authActions
+import { userActions } from "../../redux/features/userSlice"; // Importing userActions
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-   const [loginData, setLoginData] = useState({
-      email: "",
-      password: "",
-   });
-   const [error, setError] = useState(""); // To handle error messages
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+   const [error, setError] = useState(null);
+
    const dispatch = useDispatch();
-   const navigate = useNavigate(); // For redirection after login
+   const navigate = useNavigate();
 
-   // Handle form input changes
-   const handleChange = (e) => {
-      const { name, value } = e.target;
-      setLoginData({
-         ...loginData,
-         [name]: value,
-      });
-   };
-
-   // Handle form submission (login logic)
-   const handleSubmit = async (e) => {
+   const handleLogin = async (e) => {
       e.preventDefault();
+      setError(null); // Reset error state before making the request
 
       try {
-         // API call to login
+         // Hardcoding the role to "Teacher"
+         const role = "Teacher";
+
+         // Make the login API request
          const response = await axios.post(
-            "http://localhost:3000/api/v1/users/login", // Replace with your actual API endpoint
-            loginData,
+            "http://localhost:8000/api/v1/teachers/login", // Ensure this endpoint is correct
             {
-               headers: {
-                  "Content-Type": "application/json",
-               },
+               eMail: email,
+               teacherPassword: password,
+               // You do not need to send `role` since it's hardcoded
             }
          );
 
-         console.log("Login successful:", response.data);
+         // Handle response
+         const { accessToken } = response.data;
 
-         // Store token in localStorage
-         localStorage.setItem("authToken", response.data.token);
+         // Dispatch the Redux actions
+         dispatch(userActions.setUserRole({ token: accessToken, role }));
+         dispatch(authActions.login(accessToken));
 
-         // Dispatch actions to set authentication and user role
-         dispatch(authActions.login(response.data.token)); // Update auth state with token
-         dispatch(userActions.setUserRole(response.data.role)); // Role is 'teacher' or 'student'
+         // Store token and role in localStorage for persistence
+         localStorage.setItem("token", accessToken);
+         localStorage.setItem("role", role);
 
-         // Reset the form state
-         setLoginData({
-            email: "",
-            password: "",
-         });
-
-         // Redirect to dashboard or home page after successful login
-         navigate("/dashboard"); // Adjust the route as per your app's flow
+         // Redirect to teacher's home page
+         navigate("/t_home");
       } catch (error) {
-         // If there's an error (e.g., wrong credentials), show error message
-         setError(
-            error.response?.data?.message || "Login failed. Please try again."
-         );
-         console.error(
-            "Error logging in:",
-            error.response?.data || error.message
-         );
+         // Handle errors: Check if there is a response from the server
+         if (error.response) {
+            setError(
+               error.response.data.message || "Login failed. Please try again."
+            );
+         } else {
+            // Network or server error
+            setError(
+               "An error occurred. Please check your network connection."
+            );
+         }
       }
    };
 
    return (
-      <div className="max-w-md mx-auto mt-10">
-         <form
-            onSubmit={handleSubmit}
-            className="space-y-4 bg-white p-6 rounded-lg shadow-md"
-         >
-            <h2 className="text-center text-xl font-bold mb-6">Login</h2>
-
-            {/* Error message display */}
-            {error && (
-               <div className="text-red-500 text-sm mb-4">
-                  <p>{error}</p>
-               </div>
-            )}
-
+      <div className="login-form">
+         <h2>Teacher Login</h2>
+         {error && <p className="error-message">{error}</p>}
+         <form onSubmit={handleLogin}>
             <div>
-               <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Email
-               </label>
+               <label>Email</label>
                <input
                   type="email"
-                  id="email"
-                  name="email"
-                  value={loginData.email}
-                  onChange={handleChange}
-                  className="w-full mt-2 p-2 border border-gray-300 rounded"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                />
             </div>
 
             <div>
-               <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-               >
-                  Password
-               </label>
+               <label>Password</label>
                <input
                   type="password"
-                  id="password"
-                  name="password"
-                  value={loginData.password}
-                  onChange={handleChange}
-                  className="w-full mt-2 p-2 border border-gray-300 rounded"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                />
             </div>
 
-            <button
-               type="submit"
-               className="w-full mt-4 py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-               Login
-            </button>
+            <button type="submit">Login</button>
          </form>
       </div>
    );
