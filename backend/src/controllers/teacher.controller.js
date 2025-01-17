@@ -98,12 +98,14 @@ const registerTeacher = asyncHandler(async (req, res) => {
 const loginTeacher = asyncHandler(async (req, res) => {
    const { eMail, teacherPassword } = req.body;
 
-   const teacher = await Teacher.findOne({ $or: [{ eMail }] });
+   // Find teacher by email
+   const teacher = await Teacher.findOne({ eMail });
 
    if (!teacher) {
       throw new ApiError(404, "Teacher does not exist");
    }
 
+   // Validate password
    const isTeacherPasswordValid =
       await teacher.isTeacherPasswordCorrect(teacherPassword);
 
@@ -111,18 +113,24 @@ const loginTeacher = asyncHandler(async (req, res) => {
       throw new ApiError(401, "Incorrect Password!");
    }
 
+   // Generate tokens
    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
       teacher._id
    );
 
+   // Get teacher details excluding sensitive data (password, refreshToken)
    const loggedInTeacher = await Teacher.findById(teacher._id).select(
       "-password -refreshToken"
    );
 
+   // Set cookie options (check if it's in production)
    const options = {
       httpOnly: true,
+      // secure: process.env.NODE_ENV === "production", // Set based on environment
       secure: true,
    };
+
+   // Return response with tokens and teacher info
 
    return res
       .status(200)
@@ -131,7 +139,11 @@ const loginTeacher = asyncHandler(async (req, res) => {
       .json(
          new ApiResponse(
             200,
-            { teacher: loggedInTeacher, accessToken, refreshToken },
+            {
+               teacher: loggedInTeacher,
+               accessToken,
+               refreshToken,
+            },
             "Teacher Logged in Successfully"
          )
       );

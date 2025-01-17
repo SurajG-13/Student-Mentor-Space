@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import SidebarLink from "../../components/Sidebar/SidebarLink";
 
-// import {
-//   ChartBarIcon,
-//   AcademicCapIcon,
-//   DocumentDuplicateIcon,
-//   BuildingLibraryIcon,
-//   CodeBracketIcon,
-//   Cog6ToothIcon,
-//   IdentificationIcon,
-//   BookOpenIcon,
-//   CalendarDateRangeIcon,
-// } from "@heroicons/react/24/outline";
+import {
+   ChartBarIcon,
+   AcademicCapIcon,
+   DocumentDuplicateIcon,
+   BuildingLibraryIcon,
+   CodeBracketIcon,
+   Cog6ToothIcon,
+   IdentificationIcon,
+   BookOpenIcon,
+   CalendarDateRangeIcon,
+} from "@heroicons/react/24/outline";
 
 const containerVariants = {
    close: {

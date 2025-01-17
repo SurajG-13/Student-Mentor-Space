@@ -48,7 +48,7 @@ app.use("/api/v1/marks", marksRoutes);
 app.use("/api/v1/departments", departmentRoutes);
 app.use("/api/v1/subjects", subjectRoutes);
 app.use("/api/v1/certificates", certificateRoutes);
-app.use("/api/v1/external-assessments", externalAssessmentRoutes);
+app.use("/api/v1/externalAssessments", externalAssessmentRoutes);
 
 // Default Route
 

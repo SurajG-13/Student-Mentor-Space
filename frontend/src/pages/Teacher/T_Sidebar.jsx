@@ -110,7 +110,7 @@ function T_Sidebar() {
                <MagnifyingGlassIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
             </SidebarLink>
 
-            <SidebarLink to="" name="Profile" isOpen={isOpen}>
+            <SidebarLink to="/SearchStudent" name="Profile" isOpen={isOpen}>
                <IdentificationIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
             </SidebarLink>
 

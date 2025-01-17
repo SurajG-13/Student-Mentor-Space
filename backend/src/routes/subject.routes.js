@@ -10,7 +10,8 @@ import {
 const router = express.Router();
 
 // Create new subject
-router.post("/", createSubject);
+// router.post("/", createSubject);
+router.route("/createSubject").post(createSubject);
 
 // Get all subjects
 router.get("/", getSubjects);

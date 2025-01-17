@@ -1,4 +1,4 @@
-import mongoose, { mongo, Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const subjectSchema = new Schema(
    {
@@ -8,8 +8,9 @@ const subjectSchema = new Schema(
          required: true,
       },
 
-      semester: {
+      UPID: {
          type: Number,
+         required: true,
       },
 
       subjectName: {
@@ -21,7 +22,7 @@ const subjectSchema = new Schema(
          type: String,
       },
 
-      UPID: {
+      semester: {
          type: Number,
          required: true,
       },
@@ -29,6 +30,36 @@ const subjectSchema = new Schema(
       totalCredit: {
          type: Number,
          default: 0,
+      },
+
+      creditObtained: {
+         type: Number,
+         required: true,
+      },
+
+      gradeObtained: {
+         type: String,
+         enum: ["O", "E", "A", "B", "C", "D", "F", "I", "N/A"],
+         required: true,
+      },
+
+      sgpaObtained: {
+         type: Number,
+         required: true,
+      },
+
+      semesterResult: {
+         type: String,
+         enum: ["P", "X", "XP"],
+         required: true,
+      },
+
+      semesterMarksheet: {
+         type: String, // Cloudinary URL
+         match: [
+            /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
+            "Please provide a valid URL",
+         ],
       },
    },
 

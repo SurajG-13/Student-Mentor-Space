@@ -24,16 +24,33 @@ const generateAccessAndRefreshToken = async (studentId) => {
 // Register Student
 
 const registerStudent = asyncHandler(async (req, res) => {
-   const { studentName, eMail, studentPassword, role } = req.body;
+   const {
+      studentName,
+      eMail,
+      studentPassword,
+      role,
+      rollNumber,
+      department,
+      registrationNumber,
+      admissionYear,
+      xMarks,
+      xiiMarks,
+      diplomaMarks,
+      pinCode,
+      localArea,
+      postOffice,
+      dateOfBirth,
+      contactNumber,
+   } = req.body;
 
    if (
-      [studentName, eMail, studentPassword, role].some(
+      [studentName, eMail, studentPassword, role, rollNumber].some(
          (field) => field?.trim() === ""
       )
    ) {
       throw new ApiError(
          400,
-         "All Fields (studentName, eMail, studentPassword, role) are Required!"
+         "All Fields (studentName, eMail, studentPassword, role, rollNumber) are Required!"
       );
    }
 
@@ -69,11 +86,23 @@ const registerStudent = asyncHandler(async (req, res) => {
    // Create student, MongoDB will automatically generate userId (_id)
 
    const student = await Student.create({
-      fullName,
+      studentName,
       avatar: avatarUrl,
       eMail,
       studentPassword,
       role,
+      rollNumber,
+      department,
+      registrationNumber,
+      admissionYear,
+      xMarks,
+      xiiMarks,
+      diplomaMarks,
+      pinCode,
+      localArea,
+      postOffice,
+      dateOfBirth,
+      contactNumber,
    });
 
    // Optionally, remove sensitive data from the response (e.g., studentPassword)
@@ -153,13 +182,13 @@ export const getStudents = async (req, res) => {
 };
 
 // Get student details by ID
-export const getStudentById = async (req, res) => {
-   try {
-      const { studentId } = req.params;
 
-      const student = await Student.findById(studentId).populate(
-         "studentName department marks"
-      );
+export const getStudent = async (req, res) => {
+   try {
+      const { rollNumber } = req.params;
+
+      const student = await Student.findOne({ rollNumber });
+
       if (!student) {
          return res.status(404).json({ message: "Student not found" });
       }
@@ -170,28 +199,66 @@ export const getStudentById = async (req, res) => {
    }
 };
 
-// Update student details
-export const updateStudent = async (req, res) => {
-   try {
-      const { studentId } = req.params;
-      const { studentName, department, registrationNumber, semester } =
-         req.body;
+// Update Student Details
 
-      const updatedStudent = await Student.findByIdAndUpdate(
-         studentId,
-         { studentName, department, registrationNumber, semester },
-         { new: true }
+export const updateStudent = asyncHandler(async (req, res) => {
+   try {
+      const { rollNumber } = req.params;
+      const {
+         registrationNumber,
+         department,
+         admissionYear,
+         xMarks,
+         xiiMarks,
+         diplomaMarks,
+         pinCode,
+         localArea,
+         postOffice,
+         dateOfBirth,
+         contactNumber,
+      } = req.body;
+
+      const existingStudent = await Student.findOne({ rollNumber });
+
+      if (!existingStudent) {
+         return res.status(404).json({ message: "Student not found" });
+      }
+
+      const updatedStudent = await Student.findOneAndUpdate(
+         { rollNumber },
+         {
+            $set: {
+               registrationNumber,
+               department,
+               admissionYear,
+               xMarks,
+               xiiMarks,
+               diplomaMarks,
+               pinCode,
+               localArea,
+               postOffice,
+               dateOfBirth,
+               contactNumber,
+            },
+         },
+         {
+            new: true,
+            runValidators: true,
+         }
       );
 
       if (!updatedStudent) {
-         return res.status(404).json({ message: "Student not found" });
+         return res
+            .status(500)
+            .json({ message: "Failed to update student details" });
       }
 
       res.status(200).json(updatedStudent);
    } catch (error) {
+      console.error(error);
       res.status(500).json({ message: error.message });
    }
-};
+});
 
 // Delete student
 export const deleteStudent = async (req, res) => {
@@ -208,3 +275,84 @@ export const deleteStudent = async (req, res) => {
       res.status(500).json({ message: error.message });
    }
 };
+
+// // controllers/studentController.js
+// const Student = require('../models/Student');
+// const Department = require('../models/Department');
+
+// // Create a new student
+// exports.createStudent = async (req, res) => {
+//   try {
+//     const { name, rollNumber, departmentId } = req.body;
+
+//     // Check if the department exists
+//     const department = await Department.findById(departmentId);
+//     if (!department) {
+//       return res.status(400).json({ message: 'Department not found' });
+//     }
+
+//     const newStudent = new Student({
+//       name,
+//       rollNumber,
+//       department: departmentId,
+//       semesters: [],
+//     });
+
+//     await newStudent.save();
+//     res.status(201).json(newStudent);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Get all students by department
+// exports.getStudentsByDepartment = async (req, res) => {
+//   try {
+//     const students = await Student.find({ department: req.params.departmentId });
+//     res.status(200).json(students);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Get student by ID
+// exports.getStudentById = async (req, res) => {
+//   try {
+//     const student = await Student.findById(req.params.id).populate('semesters.subjects exams.subject');
+//     if (!student) {
+//       return res.status(404).json({ message: 'Student not found' });
+//     }
+//     res.status(200).json(student);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Update student (for adding subjects, exams, etc.)
+// exports.updateStudent = async (req, res) => {
+//   try {
+//     const { semesterNumber, subjects } = req.body;
+
+//     const student = await Student.findById(req.params.id);
+//     if (!student) {
+//       return res.status(404).json({ message: 'Student not found' });
+//     }
+
+//     // Add subjects and exams to the student's semester
+//     const semester = student.semesters.find((sem) => sem.semesterNumber === semesterNumber);
+//     if (semester) {
+//       semester.subjects.push(...subjects);
+//     } else {
+//       student.semesters.push({
+//         semesterNumber,
+//         subjects: subjects,
+//         exams: [],
+//       });
+//     }
+
+//     await student.save();
+//     res.status(200).json(student);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };

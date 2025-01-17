@@ -91,3 +91,41 @@ export const deleteDepartment = async (req, res) => {
       res.status(500).json({ message: error.message });
    }
 };
+
+// // controllers/departmentController.js
+// const Department = require('../models/Department');
+
+// // Create a new department
+// exports.createDepartment = async (req, res) => {
+//   try {
+//     const { name, description } = req.body;
+//     const newDepartment = new Department({ name, description });
+//     await newDepartment.save();
+//     res.status(201).json(newDepartment);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Get all departments
+// exports.getAllDepartments = async (req, res) => {
+//   try {
+//     const departments = await Department.find();
+//     res.status(200).json(departments);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// // Get department by ID
+// exports.getDepartmentById = async (req, res) => {
+//   try {
+//     const department = await Department.findById(req.params.id);
+//     if (!department) {
+//       return res.status(404).json({ message: 'Department not found' });
+//     }
+//     res.status(200).json(department);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };

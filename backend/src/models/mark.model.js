@@ -14,6 +14,16 @@ const marksSchema = new Schema(
          required: true,
       },
 
+      department: {
+         type: Schema.Types.ObjectId,
+         ref: "Department",
+      },
+
+      totalCredit: {
+         type: Number,
+         required: true,
+      },
+
       creditObtained: {
          type: Number,
          required: true,
@@ -21,13 +31,32 @@ const marksSchema = new Schema(
 
       gradeObtained: {
          type: String,
-         enum: ["A", "B", "C", "D", "F"],
+         enum: ["O", "E", "A", "B", "C", "D", "F", "I"],
+         required: true,
+      },
+
+      sgpaObtained: {
+         type: Number,
+         required: true,
+      },
+
+      semesterResult: {
+         type: String,
+         enum: ["P", "X", "XP"],
          required: true,
       },
 
       semester: {
          type: Number,
          required: true,
+      },
+
+      semesterMarksheet: {
+         type: String, // Cloudinary URL
+         match: [
+            /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/,
+            "Please provide a valid URL",
+         ],
       },
    },
    {

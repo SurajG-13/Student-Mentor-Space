@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import axiosInstance from "../../utilities/axiosInstance.js";
+import axios from "axios";
 
 const Register = () => {
    const [userData, setUserData] = useState({
@@ -8,23 +8,18 @@ const Register = () => {
       eMail: "",
       userPassword: "",
       confirmPassword: "",
-      department: "",
       role: "",
-      teacherCode: "",
+      teacherPassword: "",
+      studentPassword: "",
+      teacherAccessCode: "",
+      studentRoll: "",
    });
 
    const handleChange = (e) => {
       const { name, value } = e.target;
-      setUserData({
-         ...userData,
-         [name]: value,
-      });
-   };
-
-   const handleDepartmentSelect = (department) => {
       setUserData((prevData) => ({
          ...prevData,
-         department,
+         [name]: value,
       }));
    };
 
@@ -32,39 +27,78 @@ const Register = () => {
       setUserData((prevData) => ({
          ...prevData,
          role,
-
-         teacherCode: role === "Teacher" ? prevData.teacherCode : "",
+         teacherPassword: role === "Teacher" ? prevData.teacherPassword : "",
+         studentPassword: role === "Student" ? prevData.studentPassword : "",
+         teacherAccessCode:
+            role === "Teacher" ? prevData.teacherAccessCode : "",
+         studentRoll: role === "Student" ? prevData.studentRoll : "",
       }));
    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
+      // Basic validation for passwords match
       if (userData.userPassword !== userData.confirmPassword) {
          alert("Passwords do not match!");
          return;
       }
 
       try {
-         const response = await axiosInstance.post("users/register", userData, {
-            headers: {
-               "Content-Type": "application/json",
-            },
-         });
+         let data = {};
+         let endpoint = "";
 
-         console.log("User registered:", response.data);
+         if (
+            userData.role === "Teacher" &&
+            userData.teacherAccessCode === "9090"
+         ) {
+            data = {
+               fullName: userData.fullName,
+               eMail: userData.eMail,
+               teacherPassword: userData.userPassword,
+               teacherAccessCode: userData.teacherAccessCode,
+               role: "Teacher",
+            };
+            endpoint = "/teachers/register";
+         } else if (userData.role === "Student") {
+            data = {
+               studentName: userData.fullName,
+               eMail: userData.eMail,
+               studentPassword: userData.userPassword,
+               rollNumber: userData.studentRoll,
+               role: "Student",
+            };
+            endpoint = "/students/register";
+         }
 
+         const response = await axios.post(
+            `http://localhost:8000/api/v1${endpoint}`,
+            data,
+            {
+               headers: {
+                  "Content-Type": "application/json",
+               },
+            }
+         );
+
+         console.log(
+            `${userData.role} registered successfully:`,
+            response.data
+         );
+
+         // Reset the form after successful registration
          setUserData({
             fullName: "",
             eMail: "",
             userPassword: "",
             confirmPassword: "",
-            department: "",
             role: "",
-            teacherCode: "",
+            teacherPassword: "",
+            studentPassword: "",
+            teacherAccessCode: "",
+            studentRoll: "",
+            department: "",
          });
-         // Optionally redirect to login or home page
-         // navigate("/login");
       } catch (error) {
          console.error(
             "Error registering user:",
@@ -74,7 +108,7 @@ const Register = () => {
    };
 
    return (
-      <main className="overflow-hidden bg-lightBackground dark:bg-darkBackground font-sans">
+      <main className="overflow-hidden bg-lightBackground dark:bg-darkBackground font-sans w-[30vw] lg:ml-40">
          <div className="flex items-center justify-center p-6">
             <motion.form
                onSubmit={handleSubmit}
@@ -145,28 +179,6 @@ const Register = () => {
 
                <div className="mb-6">
                   <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
-                     Department
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                     {["CSE", "AI/ML", "IT", "ME", "ECE"].map((department) => (
-                        <button
-                           type="button"
-                           key={department}
-                           className={`bg-[#303030] text-primaryWhite py-2 px-4 rounded-full hover:bg-blue-400 ${
-                              userData.department === department
-                                 ? "bg-blue-500"
-                                 : ""
-                           }`}
-                           onClick={() => handleDepartmentSelect(department)}
-                        >
-                           {department}
-                        </button>
-                     ))}
-                  </div>
-               </div>
-
-               <div className="mb-6">
-                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      I am a
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -188,16 +200,33 @@ const Register = () => {
                {userData.role === "Teacher" && (
                   <div className="mb-6">
                      <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
-                        Access Code
+                        Teacher Access Code
                      </label>
                      <input
                         type="text"
-                        name="teacherCode"
-                        placeholder="Enter Authentication Code"
-                        value={userData.teacherCode}
+                        name="teacherAccessCode"
+                        placeholder="Enter Teacher Access Code"
+                        value={userData.teacherAccessCode}
                         onChange={handleChange}
                         className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                         required={userData.role === "Teacher"}
+                     />
+                  </div>
+               )}
+
+               {userData.role === "Student" && (
+                  <div className="mb-6">
+                     <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                        Student Roll Number
+                     </label>
+                     <input
+                        type="text"
+                        name="studentRoll"
+                        placeholder="Enter Student Roll Number"
+                        value={userData.studentRoll}
+                        onChange={handleChange}
+                        className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                        required={userData.role === "Student"}
                      />
                   </div>
                )}
@@ -206,10 +235,10 @@ const Register = () => {
                   <motion.button
                      whileHover={{ scale: 1.05 }}
                      whileTap={{ scale: 0.95 }}
-                     className="bg-blue-600 text-white py-3 px-6 rounded-3xl hover:bg-blue-500 transition"
                      type="submit"
+                     className="w-full py-3 px-6 text-lg text-primaryWhite bg-primaryGreen rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                     Submit
+                     Register
                   </motion.button>
                </div>
             </motion.form>

@@ -24,19 +24,21 @@ import TeacherLogIn from "./pages/SignIn/TeacherLogIn.jsx";
 // Student Interface Imports :
 
 import S_Home from "./pages/Student/HomePage/S_Home.jsx";
-import S_Profile from "./pages/About/About.jsx";
+
 import S_Academics from "./pages/Student/Academics/S_Academics.jsx";
 import Sem1 from "./pages/Student/Academics/Sem1.jsx";
 
 // Teacher Interface Imports :
 
 import T_Home from "./pages/Teacher/HomePage/T_Home.jsx";
+import SearchStudent from "./pages/Teacher/Search/SearchStudent.jsx";
 
 // Layouts:
 
 import Layout from "./layout/Layout.jsx";
 import StudentLayout from "./layout/StudentLayout.jsx";
 import TeacherLayout from "./layout/TeacherLayout.jsx";
+import StudentProfile from "./pages/Student/Profile/StudentProfile.jsx";
 
 const router = createBrowserRouter(
    createRoutesFromElements(
@@ -61,7 +63,7 @@ const router = createBrowserRouter(
             path="s_basicdetails"
             element={
                <StudentLayout>
-                  <S_Profile />
+                  <StudentProfile />
                </StudentLayout>
             }
          />
@@ -88,6 +90,15 @@ const router = createBrowserRouter(
                <TeacherLayout>
                   {" "}
                   <T_Home />{" "}
+               </TeacherLayout>
+            }
+         />
+         <Route
+            path="SearchStudent"
+            element={
+               <TeacherLayout>
+                  {" "}
+                  <SearchStudent />{" "}
                </TeacherLayout>
             }
          />

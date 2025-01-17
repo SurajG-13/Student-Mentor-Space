@@ -1,23 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
 import { ThemeProvider } from "../context/Theme";
+import NoAccessPage from "../utilities/NoAccessPage";
 
 const StudentLayout = ({ children }) => {
-   const role = useSelector((state) => state.user.role); // Get the user role from Redux state
+   const { isLoggedIn } = useSelector((state) => state.auth);
+   const { role } = useSelector((state) => state.user);
 
-   if (role !== "student") {
-      return <div>You are not authorized to view this page</div>;
+   if (!isLoggedIn || role !== "Student") {
+      return <NoAccessPage />;
    }
 
    return (
       <>
          <ThemeProvider>
-            <Header />
             <main>{children}</main>
-            <Footer />
          </ThemeProvider>
       </>
    );

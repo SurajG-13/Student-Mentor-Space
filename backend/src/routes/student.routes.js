@@ -2,6 +2,8 @@ import { Router } from "express";
 import {
    registerStudent,
    loginStudent,
+   updateStudent,
+   getStudent,
    //    logoutTeacher,
    //    refreshAccessToken,
 } from "../controllers/student.controller.js";
@@ -20,11 +22,13 @@ router.route("/register").post(
 );
 
 router.route("/login").post(loginStudent);
+router.put("/update/:rollNumber", updateStudent);
+router.route("/profile/:rollNumber").get(getStudent);
 
 // Secured Routes
 
 // router.route("/logout").post(verifyJWT, logoutStudent);
 
-router.route("/refresh-token").post(refreshAccessToken);
+// router.route("/refresh-token").post(refreshAccessToken);
 
 export default router;

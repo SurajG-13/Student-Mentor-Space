@@ -55,7 +55,7 @@ export default function Header() {
 
    return (
       <>
-         <header className="shadow sticky z-50 top-0">
+         <header className="shadow sticky z-50 top-0 overflow-hidden">
             <nav className="bg-white border-gray-200 dark:text-white dark:bg-neutral-950  px-4 lg:px-6 py-2.5">
                <div
                   className="flex flex-wrap justify-between items-center 
