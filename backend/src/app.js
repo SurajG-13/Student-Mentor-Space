@@ -33,22 +33,26 @@ app.use(cookieParser());
 import userRouter from "./routes/user.routes.js";
 import teacherRouter from "./routes/teacher.routes.js";
 import studentRouter from "./routes/student.routes.js";
+
+import projectRouter from "./routes/project.routes.js";
 import marksRoutes from "./routes/marks.routes.js";
-import departmentRoutes from "./routes/department.routes.js";
+// import departmentRoutes from "./routes/department.routes.js";
 import subjectRoutes from "./routes/subject.routes.js";
 import certificateRoutes from "./routes/certificate.routes.js";
-import externalAssessmentRoutes from "./routes/externalAssessment.routes.js";
+// import externalAssessmentRoutes from "./routes/externalAssessment.routes.js";
 
 // Route Declaration
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/teachers", teacherRouter);
 app.use("/api/v1/students", studentRouter);
+
+app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/marks", marksRoutes);
-app.use("/api/v1/departments", departmentRoutes);
+// app.use("/api/v1/departments", departmentRoutes);
 app.use("/api/v1/subjects", subjectRoutes);
 app.use("/api/v1/certificates", certificateRoutes);
-app.use("/api/v1/externalAssessments", externalAssessmentRoutes);
+// app.use("/api/v1/externalAssessments", externalAssessmentRoutes);
 
 // Default Route
 

@@ -9,7 +9,6 @@ const certificateSchema = new Schema(
 
       certificateCode: {
          type: String,
-         required: true,
       },
 
       certificateIssuedBy: {
@@ -20,6 +19,19 @@ const certificateSchema = new Schema(
       certificateDuration: {
          type: Number,
          default: 0,
+      },
+
+      certificatePoints: {
+         type: Number,
+         default: 0,
+      },
+
+      certificateLink: {
+         type: String,
+      },
+
+      certificateImage: {
+         type: String,
       },
    },
 

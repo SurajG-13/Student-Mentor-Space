@@ -1,28 +1,12 @@
 import express from "express";
-import {
-   createSubject,
-   getSubjects,
-   getSubjectById,
-   updateSubject,
-   deleteSubject,
-} from "../controllers/subject.controller.js";
-
+import { getSubjectsByDeptAndSemester } from "../controllers/subject.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
-// Create new subject
-// router.post("/", createSubject);
-router.route("/createSubject").post(createSubject);
-
-// Get all subjects
-router.get("/", getSubjects);
-
-// Get subject by ID
-router.get("/:subjectId", getSubjectById);
-
-// Update subject details
-router.put("/:subjectId", updateSubject);
-
-// Delete a subject
-router.delete("/:subjectId", deleteSubject);
+/**
+ * @route   GET /api/subjects?department=...&semesterNo=...
+ * @desc    Get subjects for a given department and semester
+ */
+router.get("/", getSubjectsByDeptAndSemester);
 
 export default router;

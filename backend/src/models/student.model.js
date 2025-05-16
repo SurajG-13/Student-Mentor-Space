@@ -82,6 +82,19 @@ const studentSchema = new Schema(
          enum: ["Teacher", "Student", "Guest", "Admin"],
          default: "Student",
       },
+
+      projects: [
+         {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project", // Ensure this references the Project model
+         },
+      ],
+      certificates: [
+         {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Certificate", // Ensure this references the Project model
+         },
+      ],
    },
    {
       timestamps: true,

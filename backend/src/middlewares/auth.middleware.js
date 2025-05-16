@@ -69,10 +69,71 @@
 
 // export { verifyJWT };
 
+// import { asyncHandler } from "../utils/asyncHandler.js";
+// import { ApiError } from "../utils/ApiError.js";
+// import jwt from "jsonwebtoken";
+// import { User } from "../models/user.model.js";
+
+// // Middleware to verify JWT token and check if user exists
+// const verifyJWT = asyncHandler(async (req, res, next) => {
+//    try {
+//       // 1. Retrieve the token from cookies or Authorization header
+//       const token =
+//          req.cookies?.accessToken ||
+//          req.header("Authorization")?.replace("Bearer ", "");
+
+//       console.log("Received Token:", token); // Debugging: Log the received token
+
+//       // 2. If no token is found, throw an "Unauthorized Request" error
+//       if (!token) {
+//          throw new ApiError(401, "Unauthorized Request - No Token Provided");
+//       }
+
+//       // 3. Verify the JWT token using the secret key from environment variables
+//       const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+//       console.log("Decoded Token:", decodedToken); // Debugging: Log the decoded token
+
+//       // 4. Find the user associated with the decoded token's _id
+//       const user = await User.findById(decodedToken._id).select(
+//          "-userPassword -refreshToken"
+//       );
+
+//       // 5. If no user is found, throw an error indicating "Invalid Access Token"
+//       if (!user) {
+//          throw new ApiError(401, "Invalid Access Token");
+//       }
+
+//       // 6. Attach the found user to the request object for use in other middleware or routes
+//       req.user = user;
+
+//       // 7. Proceed to the next middleware or route handler
+//       next();
+//    } catch (error) {
+//       // 8. Catch any errors (invalid token, expired token, etc.) and throw a specific error message
+
+//       console.error("JWT Verification Error:", error); // Debugging: Log error
+
+//       if (error instanceof jwt.TokenExpiredError) {
+//          // Token has expired
+//          throw new ApiError(401, "Token has expired. Please log in again.");
+//       } else if (error instanceof jwt.JsonWebTokenError) {
+//          // Invalid token (e.g., tampered or malformed)
+//          throw new ApiError(401, "Invalid token. Please log in again.");
+//       } else {
+//          // Other errors (generic)
+//          throw new ApiError(401, "Invalid Operation!");
+//       }
+//    }
+// });
+
+// export { verifyJWT };
+
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.model.js";
+import { Student } from "../models/student.model.js";
+import { Teacher } from "../models/teacher.model.js";
 
 // Middleware to verify JWT token and check if user exists
 const verifyJWT = asyncHandler(async (req, res, next) => {
@@ -82,8 +143,6 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
          req.cookies?.accessToken ||
          req.header("Authorization")?.replace("Bearer ", "");
 
-      console.log("Received Token:", token); // Debugging: Log the received token
-
       // 2. If no token is found, throw an "Unauthorized Request" error
       if (!token) {
          throw new ApiError(401, "Unauthorized Request - No Token Provided");
@@ -92,36 +151,38 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
       // 3. Verify the JWT token using the secret key from environment variables
       const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-      console.log("Decoded Token:", decodedToken); // Debugging: Log the decoded token
-
       // 4. Find the user associated with the decoded token's _id
-      const user = await User.findById(decodedToken._id).select(
-         "-userPassword -refreshToken"
-      );
+      const { _id, role } = decodedToken;
 
-      // 5. If no user is found, throw an error indicating "Invalid Access Token"
+      // Based on the role, find the student or teacher
+      let user;
+
+      if (role === "Student") {
+         user = await Student.findById(_id).select(
+            "-userPassword -refreshToken"
+         );
+      } else if (role === "Teacher") {
+         user = await Teacher.findById(_id).select(
+            "-userPassword -refreshToken"
+         );
+      }
+
       if (!user) {
          throw new ApiError(401, "Invalid Access Token");
       }
 
-      // 6. Attach the found user to the request object for use in other middleware or routes
+      // Attach the user to the request object for further use
       req.user = user;
-
-      // 7. Proceed to the next middleware or route handler
       next();
    } catch (error) {
-      // 8. Catch any errors (invalid token, expired token, etc.) and throw a specific error message
+      console.error("JWT Verification Error:", error);
 
-      console.error("JWT Verification Error:", error); // Debugging: Log error
-
+      // Handle specific error cases
       if (error instanceof jwt.TokenExpiredError) {
-         // Token has expired
          throw new ApiError(401, "Token has expired. Please log in again.");
       } else if (error instanceof jwt.JsonWebTokenError) {
-         // Invalid token (e.g., tampered or malformed)
          throw new ApiError(401, "Invalid token. Please log in again.");
       } else {
-         // Other errors (generic)
          throw new ApiError(401, "Invalid Operation!");
       }
    }

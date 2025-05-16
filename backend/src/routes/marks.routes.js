@@ -1,27 +1,44 @@
 import express from "express";
 import {
-   createMarks,
-   getMarks,
-   getMarksByStudent,
-   updateMarks,
-   deleteMarks,
+   saveOrUpdateMarks,
+   getStudentMarks,
+   getMarksByRoll,
 } from "../controllers/marks.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-// Create new marks entry
-router.post("/", createMarks);
+/**
+ * @route   POST /api/marks
+ * @desc    Student submits or updates marks
+ */
+router.post("/", verifyJWT, (req, res, next) => {
+   if (req.user.role !== "Student") {
+      return res.status(403).json({ message: "Access Denied: Students only" });
+   }
+   saveOrUpdateMarks(req, res, next);
+});
 
-// Get all marks
-router.get("/", getMarks);
+/**
+ * @route   GET /api/marks/me
+ * @desc    Student views own marks
+ */
+router.get("/me", verifyJWT, (req, res, next) => {
+   if (req.user.role !== "Student") {
+      return res.status(403).json({ message: "Access Denied: Students only" });
+   }
+   getStudentMarks(req, res, next);
+});
 
-// Get marks by student ID
-router.get("/:studentId", getMarksByStudent);
-
-// Update marks entry
-router.put("/:marksId", updateMarks);
-
-// Delete marks entry
-router.delete("/:marksId", deleteMarks);
+/**
+ * @route   GET /api/marks/:rollNumber
+ * @desc    Teacher views a student's marks by roll number
+ */
+router.get("/:rollNumber", verifyJWT, (req, res, next) => {
+   if (req.user.role !== "Teacher") {
+      return res.status(403).json({ message: "Access Denied: Teachers only" });
+   }
+   getMarksByRoll(req, res, next);
+});
 
 export default router;

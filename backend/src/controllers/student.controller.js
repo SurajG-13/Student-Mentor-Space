@@ -2,8 +2,10 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Student } from "../models/student.model.js";
+import { Department } from "../models/department.model.js";
 import { uploadonCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 // Method for Tokens
 
@@ -124,10 +126,54 @@ const registerStudent = asyncHandler(async (req, res) => {
 
 // Code for Student Login :
 
+// const loginStudent = asyncHandler(async (req, res) => {
+//    const { eMail, studentPassword } = req.body;
+
+//    const student = await Student.findOne({ $or: [{ eMail }] });
+
+//    if (!student) {
+//       throw new ApiError(404, "Student does not exist");
+//    }
+
+//    const isStudentPasswordValid =
+//       await student.isStudentPasswordCorrect(studentPassword);
+
+//    if (!isStudentPasswordValid) {
+//       throw new ApiError(401, "Incorrect Password!");
+//    }
+
+//    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+//       student._id
+//    );
+
+//    const loggedInStudent = await Student.findById(student._id).select(
+//       "-password -refreshToken"
+//    );
+
+//    const options = {
+//       httpOnly: true,
+//       secure: true,
+//    };
+
+//    return res
+//       .status(200)
+//       .cookie("accessToken", accessToken, options)
+//       .cookie("refreshToken", refreshToken, options)
+//       .json(
+//          new ApiResponse(
+//             200,
+//             { student: loggedInStudent, accessToken, refreshToken },
+//             "Student Logged in Successfully"
+//          )
+//       );
+// });
+
 const loginStudent = asyncHandler(async (req, res) => {
    const { eMail, studentPassword } = req.body;
 
-   const student = await Student.findOne({ $or: [{ eMail }] });
+   const student = await Student.findOne({ $or: [{ eMail }] }).populate(
+      "department"
+   ); // <-- populated department
 
    if (!student) {
       throw new ApiError(404, "Student does not exist");
@@ -144,9 +190,10 @@ const loginStudent = asyncHandler(async (req, res) => {
       student._id
    );
 
-   const loggedInStudent = await Student.findById(student._id).select(
-      "-password -refreshToken"
-   );
+   // Use populated student object here (excluding sensitive fields)
+   const loggedInStudent = await Student.findById(student._id)
+      .select("-studentPassword -refreshToken")
+      .populate("department"); // <-- populated department
 
    const options = {
       httpOnly: true,
@@ -166,7 +213,7 @@ const loginStudent = asyncHandler(async (req, res) => {
       );
 });
 
-export { generateAccessAndRefreshToken, registerStudent, loginStudent };
+// export { generateAccessAndRefreshToken, registerStudent, loginStudent };
 
 // Get all students
 
@@ -183,11 +230,38 @@ export const getStudents = async (req, res) => {
 
 // Get student details by ID
 
+// export const getStudent = async (req, res) => {
+//    try {
+//       const { rollNumber } = req.params;
+
+//       const student = await Student.findOne({ rollNumber });
+
+//       if (!student) {
+//          return res.status(404).json({ message: "Student not found" });
+//       }
+
+//       res.status(200).json(student);
+//    } catch (error) {
+//       res.status(500).json({ message: error.message });
+//    }
+// };
+
+// export const getStudents = async (req, res) => {
+//    try {
+//       const students = await Student.find().populate("department"); // <-- populated department
+//       res.status(200).json(students);
+//    } catch (error) {
+//       res.status(500).json({ message: error.message });
+//    }
+// };
+
 export const getStudent = async (req, res) => {
    try {
       const { rollNumber } = req.params;
 
-      const student = await Student.findOne({ rollNumber });
+      const student = await Student.findOne({ rollNumber }).populate(
+         "department"
+      ); // <-- populated department
 
       if (!student) {
          return res.status(404).json({ message: "Student not found" });
@@ -201,63 +275,123 @@ export const getStudent = async (req, res) => {
 
 // Update Student Details
 
+// export const updateStudent = asyncHandler(async (req, res) => {
+//    try {
+//       const { rollNumber } = req.params;
+//       const {
+//          registrationNumber,
+//          department,
+//          admissionYear,
+//          xMarks,
+//          xiiMarks,
+//          diplomaMarks,
+//          pinCode,
+//          localArea,
+//          postOffice,
+//          dateOfBirth,
+//          contactNumber,
+//       } = req.body;
+
+//       const existingStudent = await Student.findOne({ rollNumber });
+
+//       if (!existingStudent) {
+//          return res.status(404).json({ message: "Student not found" });
+//       }
+
+//       const updatedStudent = await Student.findOneAndUpdate(
+//          { rollNumber },
+//          {
+//             $set: {
+//                registrationNumber,
+//                department,
+//                admissionYear,
+//                xMarks,
+//                xiiMarks,
+//                diplomaMarks,
+//                pinCode,
+//                localArea,
+//                postOffice,
+//                dateOfBirth,
+//                contactNumber,
+//             },
+//          },
+//          {
+//             new: true,
+//             runValidators: true,
+//          }
+//       );
+
+//       if (!updatedStudent) {
+//          return res
+//             .status(500)
+//             .json({ message: "Failed to update student details" });
+//       }
+
+//       res.status(200).json(updatedStudent);
+//    } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: error.message });
+//    }
+// });
+
 export const updateStudent = asyncHandler(async (req, res) => {
-   try {
-      const { rollNumber } = req.params;
-      const {
-         registrationNumber,
-         department,
-         admissionYear,
-         xMarks,
-         xiiMarks,
-         diplomaMarks,
-         pinCode,
-         localArea,
-         postOffice,
-         dateOfBirth,
-         contactNumber,
-      } = req.body;
+   const { rollNumber } = req.params;
+   const {
+      department,
+      studentName,
+      eMail,
+      contactNumber,
+      dateOfBirth,
+      registrationNumber,
+      localArea,
+      postOffice,
+      pinCode,
+      xMarks,
+      xiiMarks,
+      diplomaMarks,
+      admissionYear,
+      // other fields...
+   } = req.body;
 
-      const existingStudent = await Student.findOne({ rollNumber });
-
-      if (!existingStudent) {
-         return res.status(404).json({ message: "Student not found" });
+   // Validate department ObjectId if provided
+   if (department) {
+      if (!mongoose.Types.ObjectId.isValid(department)) {
+         throw new ApiError(400, "Invalid department ID");
       }
-
-      const updatedStudent = await Student.findOneAndUpdate(
-         { rollNumber },
-         {
-            $set: {
-               registrationNumber,
-               department,
-               admissionYear,
-               xMarks,
-               xiiMarks,
-               diplomaMarks,
-               pinCode,
-               localArea,
-               postOffice,
-               dateOfBirth,
-               contactNumber,
-            },
-         },
-         {
-            new: true,
-            runValidators: true,
-         }
-      );
-
-      if (!updatedStudent) {
-         return res
-            .status(500)
-            .json({ message: "Failed to update student details" });
+      const deptExists = await Department.findById(department);
+      if (!deptExists) {
+         throw new ApiError(400, "Department not found");
       }
-
-      res.status(200).json(updatedStudent);
-   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: error.message });
    }
+
+   const updatedStudent = await Student.findOneAndUpdate(
+      { rollNumber },
+      {
+         $set: {
+            department,
+            studentName,
+            eMail,
+            contactNumber,
+            dateOfBirth,
+            registrationNumber,
+            localArea,
+            postOffice,
+            pinCode,
+            xMarks,
+            xiiMarks,
+            diplomaMarks,
+            admissionYear,
+            // other fields...
+         },
+      },
+      { new: true, runValidators: true }
+   );
+
+   if (!updatedStudent) {
+      throw new ApiError(404, "Student not found");
+   }
+
+   res.status(200).json(updatedStudent);
 });
 
 // Delete student
@@ -276,83 +410,44 @@ export const deleteStudent = async (req, res) => {
    }
 };
 
-// // controllers/studentController.js
-// const Student = require('../models/Student');
-// const Department = require('../models/Department');
+// Login Student - **CHANGED: populate department and consistent response**
 
-// // Create a new student
-// exports.createStudent = async (req, res) => {
-//   try {
-//     const { name, rollNumber, departmentId } = req.body;
+// Get all students - **CHANGED: populate department**
 
-//     // Check if the department exists
-//     const department = await Department.findById(departmentId);
-//     if (!department) {
-//       return res.status(400).json({ message: 'Department not found' });
-//     }
+// Get student details by rollNumber - **CHANGED: populate department**
 
-//     const newStudent = new Student({
-//       name,
-//       rollNumber,
-//       department: departmentId,
-//       semesters: [],
-//     });
+// New: Get logged-in student's profile by ID - **ADDED**
+export const getLoggedInStudentProfile = asyncHandler(async (req, res) => {
+   const student = await Student.findById(req.user._id).populate("department"); // <-- populated department
+   if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+   }
+   res.status(200).json(student);
+});
 
-//     await newStudent.save();
-//     res.status(201).json(newStudent);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+// export const logoutStudent = asyncHandler(async (req, res) => {
+//    // Clear the JWT cookies by setting empty values and maxAge 0
+//    res.cookie("accessToken", "", { httpOnly: true, secure: true, maxAge: 0 });
+//    res.cookie("refreshToken", "", { httpOnly: true, secure: true, maxAge: 0 });
 
-// // Get all students by department
-// exports.getStudentsByDepartment = async (req, res) => {
-//   try {
-//     const students = await Student.find({ department: req.params.departmentId });
-//     res.status(200).json(students);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+//    res.status(200).json({ message: "Logged out successfully" });
+// });
 
-// // Get student by ID
-// exports.getStudentById = async (req, res) => {
-//   try {
-//     const student = await Student.findById(req.params.id).populate('semesters.subjects exams.subject');
-//     if (!student) {
-//       return res.status(404).json({ message: 'Student not found' });
-//     }
-//     res.status(200).json(student);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+export const logoutStudent = asyncHandler(async (req, res) => {
+   Student.findByIdAndUpdate(req.user._id, {
+      $set: { refreshToken: undefined },
+   });
 
-// // Update student (for adding subjects, exams, etc.)
-// exports.updateStudent = async (req, res) => {
-//   try {
-//     const { semesterNumber, subjects } = req.body;
+   const options = {
+      httpOnly: true,
+      secure: true,
+   };
 
-//     const student = await Student.findById(req.params.id);
-//     if (!student) {
-//       return res.status(404).json({ message: 'Student not found' });
-//     }
+   return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .json(new ApiResponse(200, {}, "Student Logged Out"));
+});
 
-//     // Add subjects and exams to the student's semester
-//     const semester = student.semesters.find((sem) => sem.semesterNumber === semesterNumber);
-//     if (semester) {
-//       semester.subjects.push(...subjects);
-//     } else {
-//       student.semesters.push({
-//         semesterNumber,
-//         subjects: subjects,
-//         exams: [],
-//       });
-//     }
-
-//     await student.save();
-//     res.status(200).json(student);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+export { generateAccessAndRefreshToken, registerStudent, loginStudent };

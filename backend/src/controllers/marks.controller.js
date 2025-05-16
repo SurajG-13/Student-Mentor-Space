@@ -1,104 +1,64 @@
-import { Marks } from "../models/mark.model.js"; // Import Marks model
-import { Student } from "../models/student.model.js"; // Import Student model
-import { Subject } from "../models/subject.model.js"; // Import Subject model
+// controllers/marks.controller.js
+import Marks from "../models/marks.model.js"; // ✅ Corrected import
 
-// Create new marks entry
-export const createMarks = async (req, res) => {
+// POST /api/marks — Student saves/updates marks for a semester
+export async function saveOrUpdateMarks(req, res) {
    try {
-      const { student, subject, creditObtained, gradeObtained, semester } =
-         req.body;
+      const { semesterNo, subjects } = req.body;
+      const { _id: studentId, rollNumber, department } = req.user;
 
-      // Check if the student and subject exist
-      const studentExists = await Student.findById(student);
-      const subjectExists = await Subject.findById(subject);
+      let marks = await Marks.findOne({ rollNumber }); // ✅ use the model method directly
 
-      if (!studentExists || !subjectExists) {
-         return res.status(400).json({ message: "Invalid student or subject" });
-      }
-
-      const newMarks = new Marks({
-         student,
-         subject,
-         creditObtained,
-         gradeObtained,
-         semester,
-      });
-
-      await newMarks.save();
-
-      // Update student's total marks and grade (optional)
-      studentExists.totalMarks += creditObtained;
-      studentExists.overallGrade = gradeObtained; // Simplified logic for grade
-      await studentExists.save();
-
-      res.status(201).json({ message: "Marks added successfully", newMarks });
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
-};
-
-// Get all marks entries
-export const getMarks = async (req, res) => {
-   try {
-      const marks = await Marks.find().populate("student subject");
-      res.status(200).json(marks);
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
-};
-
-// Get marks by student ID
-export const getMarksByStudent = async (req, res) => {
-   try {
-      const { studentId } = req.params;
-
-      const marks = await Marks.find({ student: studentId }).populate(
-         "student subject"
-      );
       if (!marks) {
-         return res.status(404).json({ message: "Marks not found" });
+         marks = new Marks({
+            studentId,
+            rollNumber,
+            department,
+            semesters: [{ semesterNo, subjects }],
+         });
+      } else {
+         const semesterIndex = marks.semesters.findIndex(
+            (s) => s.semesterNo === semesterNo
+         );
+
+         if (semesterIndex !== -1) {
+            marks.semesters[semesterIndex].subjects = subjects;
+         } else {
+            marks.semesters.push({ semesterNo, subjects });
+         }
       }
+
+      await marks.save();
+      res.status(200).json({ message: "Marks saved successfully." });
+   } catch (err) {
+      res.status(500).json({ error: err.message });
+   }
+}
+
+// GET /api/marks/me — Authenticated student views own marks
+export async function getStudentMarks(req, res) {
+   try {
+      const { rollNumber } = req.user;
+      const marks = await Marks.findOne({ rollNumber }); // ✅
+
+      if (!marks) return res.status(404).json({ error: "No marks found." });
 
       res.status(200).json(marks);
-   } catch (error) {
-      res.status(500).json({ message: error.message });
+   } catch (err) {
+      res.status(500).json({ error: err.message });
    }
-};
+}
 
-// Update marks entry
-export const updateMarks = async (req, res) => {
+// GET /api/marks/:rollNumber — Teacher views any student marks by roll number
+export async function getMarksByRoll(req, res) {
    try {
-      const { marksId } = req.params;
-      const { creditObtained, gradeObtained, semester } = req.body;
+      const { rollNumber } = req.params;
+      const marks = await Marks.findOne({ rollNumber }); // ✅
 
-      const updatedMarks = await Marks.findByIdAndUpdate(
-         marksId,
-         { creditObtained, gradeObtained, semester },
-         { new: true }
-      );
+      if (!marks) return res.status(404).json({ error: "No marks found." });
 
-      if (!updatedMarks) {
-         return res.status(404).json({ message: "Marks entry not found" });
-      }
-
-      res.status(200).json(updatedMarks);
-   } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(200).json(marks);
+   } catch (err) {
+      res.status(500).json({ error: err.message });
    }
-};
-
-// Delete marks entry
-export const deleteMarks = async (req, res) => {
-   try {
-      const { marksId } = req.params;
-
-      const deletedMarks = await Marks.findByIdAndDelete(marksId);
-      if (!deletedMarks) {
-         return res.status(404).json({ message: "Marks entry not found" });
-      }
-
-      res.status(200).json({ message: "Marks entry deleted successfully" });
-   } catch (error) {
-      res.status(500).json({ message: error.message });
-   }
-};
+}
