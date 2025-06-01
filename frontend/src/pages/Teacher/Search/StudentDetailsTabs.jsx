@@ -2,6 +2,7 @@ import { useState } from "react";
 import SearchStudent from "./SearchStudent";
 import SearchProject from "./SearchProject";
 import SearchAcademics from "./SearchAcademics";
+import SearchCertificate from "./SearchCertificate";
 
 function StudentDetailsTabs() {
    const tabs = [
@@ -34,7 +35,7 @@ function StudentDetailsTabs() {
          case "Academics":
             return <SearchAcademics />;
          case "Certifications":
-            return <Certifications />;
+            return <SearchCertificate />;
          case "Internships":
             return <Internships />;
          case "Projects":

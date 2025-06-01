@@ -141,24 +141,25 @@ export const deleteCertificate = asyncHandler(async (req, res) => {
 });
 
 export const getCertificatesByStudent = asyncHandler(async (req, res) => {
-   // Extract the student roll number from the authenticated user
-   const student = req.user; // req.user is already populated by the verifyJWT middleware
+   const user = req.user; // authenticated user (teacher or student)
+   const { rollNumber } = req.params;
 
-   if (!student || student.role !== "Student") {
-      throw new ApiError(401, "Unauthorized - User is not a student.");
+   // Only allow teachers or admins to fetch certificates by roll number
+   if (!user || (user.role !== "Teacher" && user.role !== "Admin")) {
+      throw new ApiError(401, "Unauthorized - Access denied.");
    }
 
-   // Fetch all the projects of this student (populating the 'projects' field)
-   const studentWithCertificates = await Student.findById(student._id).populate(
+   // Find the student by roll number
+   const student = await Student.findOne({ rollNumber }).populate(
       "certificates"
    );
 
-   if (!studentWithCertificates) {
+   if (!student) {
       throw new ApiError(404, "Student not found.");
    }
 
-   return res.status(200).json({
+   res.status(200).json({
       success: true,
-      data: studentWithCertificates.certificates, // Return the list of projects
+      data: student.certificates,
    });
 });
