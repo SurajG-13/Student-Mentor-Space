@@ -451,3 +451,15 @@ export const logoutStudent = asyncHandler(async (req, res) => {
 });
 
 export { generateAccessAndRefreshToken, registerStudent, loginStudent };
+
+// Code to get the number of registered Students in the Database
+
+export const getStudentCount = async (req, res) => {
+   try {
+      const count = await Student.countDocuments();
+      res.status(200).json({ totalStudents: count });
+   } catch (error) {
+      console.error("Error getting student count:", error);
+      res.status(500).json({ error: "Failed to get student count" });
+   }
+};

@@ -11,7 +11,7 @@ function SignIn() {
                className="w-1/2 min-h-screen flex flex-col items-center justify-center 
                        bg-green-50 dark:bg-[#1E201E] dark:text-white"
             >
-               <p className=" text-black text-center text-4xl mb-6 ">
+               <p className=" text-black dark:text-highlightWhite text-center text-4xl mb-6 ">
                   For Teachers
                </p>
                <p>Log in with Verified Credentials</p>
@@ -28,7 +28,7 @@ function SignIn() {
             </section>
 
             <section className="w-1/2 min-h-screen flex flex-col items-center justify-center">
-               <p className=" text-black text-center text-4xl mb-6">
+               <p className=" text-black dark:text-highlightWhite text-center text-4xl mb-6">
                   For Students
                </p>
 

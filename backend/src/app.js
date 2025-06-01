@@ -36,7 +36,7 @@ import studentRouter from "./routes/student.routes.js";
 
 import projectRouter from "./routes/project.routes.js";
 import marksRoutes from "./routes/marks.routes.js";
-// import departmentRoutes from "./routes/department.routes.js";
+import departmentRoutes from "./routes/department.routes.js";
 import subjectRoutes from "./routes/subject.routes.js";
 import certificateRoutes from "./routes/certificate.routes.js";
 // import externalAssessmentRoutes from "./routes/externalAssessment.routes.js";
@@ -49,7 +49,7 @@ app.use("/api/v1/students", studentRouter);
 
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/marks", marksRoutes);
-// app.use("/api/v1/departments", departmentRoutes);
+app.use("/api/v1/departments", departmentRoutes);
 app.use("/api/v1/subjects", subjectRoutes);
 app.use("/api/v1/certificates", certificateRoutes);
 // app.use("/api/v1/externalAssessments", externalAssessmentRoutes);

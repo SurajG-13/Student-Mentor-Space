@@ -2,12 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const departmentSchema = new Schema(
    {
-      departmentID: {
-         type: Number,
-         required: true,
-         unique: true,
-      },
-
       departmentName: {
          type: String,
          trim: true,

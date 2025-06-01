@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
-import SidebarLink from "../../components/Sidebar/SidebarLink";
-
 import {
    Cog6ToothIcon,
    IdentificationIcon,
@@ -10,32 +6,45 @@ import {
    CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 
+import React, { useEffect, useState } from "react";
+import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
+import SidebarLink from "../../components/Sidebar/SidebarLink";
+import { useNavigate } from "react-router-dom";
+
+import {
+   ChartBarIcon,
+   AcademicCapIcon,
+   DocumentDuplicateIcon,
+   BuildingLibraryIcon,
+   CodeBracketIcon,
+   CalendarDateRangeIcon,
+   PowerIcon,
+} from "@heroicons/react/24/outline";
+
 const containerVariants = {
-   close: {
-      width: "5rem",
+   closed: {
+      width: "4.5rem",
       transition: {
          type: "spring",
-         damping: 15,
-         duration: 0.5,
+         damping: 20,
+         stiffness: 300,
+         duration: 0.4,
       },
    },
    open: {
       width: "16rem",
       transition: {
          type: "spring",
-         damping: 15,
-         duration: 0.5,
+         damping: 20,
+         stiffness: 300,
+         duration: 0.4,
       },
    },
 };
 
 const svgVariants = {
-   close: {
-      rotate: 360,
-   },
-   open: {
-      rotate: 180,
-   },
+   closed: { rotate: 0 },
+   open: { rotate: 180 },
 };
 
 function T_Sidebar() {
@@ -44,6 +53,7 @@ function T_Sidebar() {
 
    const containerControls = useAnimationControls();
    const svgControls = useAnimationControls();
+   const navigate = useNavigate();
 
    useEffect(() => {
       if (isOpen) {
@@ -54,79 +64,121 @@ function T_Sidebar() {
             if (!isMouseOver) {
                setIsOpen(false);
             }
-         }, 1500);
+         }, 1800);
 
          return () => clearTimeout(timer);
       } else {
-         containerControls.start("close");
-         svgControls.start("close");
+         containerControls.start("closed");
+         svgControls.start("closed");
       }
-   }, [isOpen, isMouseOver]);
+   }, [isOpen, isMouseOver, containerControls, svgControls]);
 
-   const handleOpenClose = () => {
-      setIsOpen(!isOpen);
+   const handleOpenClose = () => setIsOpen((prev) => !prev);
+   const handleMouseEnter = () => setIsMouseOver(true);
+   const handleMouseLeave = () => setIsMouseOver(false);
+
+   // Logout logic: clear tokens and redirect to login
+
+   const handleLogout = () => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      // If using cookies, clear them via server response or client-side methods
+      // Then redirect to signin/login page
+      navigate("/signin", { replace: true });
    };
 
-   const handleMouseOverOff = () => {
-      setIsMouseOver(!isMouseOver);
-   };
    return (
-      <motion.section
-         variants={containerVariants}
-         animate={containerControls}
-         initial="close"
-         onMouseEnter={handleMouseOverOff} // Pause closing when hovered
-         onMouseLeave={handleMouseOverOff} // Allow closing when not hovered
-         className="dark:bg-neutral-900 flex flex-col z-10 gap-20 p-5 absolute top-0 left-0 h-full shadow shadow-neutral-600"
-      >
-         <div className="flex flex-row w-full justify-between place-items-center">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-700 rounded-full" />
-            <button className="p-1 rounded-full flex" onClick={handleOpenClose}>
-               <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1}
-                  stroke="currentColor"
-                  className="w-8 h-8 dark:stroke-neutral-200"
+      <>
+         <motion.nav
+            variants={containerVariants}
+            animate={containerControls}
+            initial="closed"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="fixed pt-20 top-0 left-0 h-screen bg-lightBackground dark:bg-darkBackground shadow-lg shadow-black/40 flex flex-col p-5 gap-10 z-50 select-none"
+            style={{ boxSizing: "border-box" }}
+         >
+            {/* Top Bar: Logo + Toggle */}
+            <div className="flex items-center justify-between w-full">
+               <button
+                  aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
+                  onClick={handleOpenClose}
+                  className="bg-neutral-400 flex-shrink-0 p-2 rounded-full hover:bg-neutral-800 transition-colors"
+                  type="button"
                >
-                  <motion.path
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                     d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                  <motion.svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     strokeWidth={1.5}
+                     stroke="currentColor"
+                     className="w-7 h-7 text-neutral-200"
                      variants={svgVariants}
                      animate={svgControls}
-                     transition={{
-                        duration: 0.5,
-                        ease: "easeInOut",
-                     }}
-                  />
-               </svg>
+                     transition={{ duration: 0.4, ease: "easeInOut" }}
+                  >
+                     <motion.path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 4.5L21 12m0 0L13.5 19.5M21 12H3"
+                     />
+                  </motion.svg>
+               </button>
+            </div>
+
+            {/* Sidebar Links */}
+            <nav className="flex flex-col gap-3 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-transparent">
+               <SidebarLink to="/s_home" name="Dashboard" isOpen={isOpen}>
+                  <ChartBarIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink to="/s_basicdetails" name="Profile" isOpen={isOpen}>
+                  <IdentificationIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink to="/s_academics" name="Academics" isOpen={isOpen}>
+                  <AcademicCapIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink to="/attendance" name="Attendance" isOpen={isOpen}>
+                  <CalendarDateRangeIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink to="/clubs" name="Clubs" isOpen={isOpen}>
+                  <BookOpenIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink
+                  to="/S_Certificate"
+                  name="Certifications"
+                  isOpen={isOpen}
+               >
+                  <DocumentDuplicateIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink to="/project" name="Project" isOpen={isOpen}>
+                  <CodeBracketIcon className="w-7 h-7" />
+               </SidebarLink>
+
+               <SidebarLink to="/internship" name="Internship" isOpen={isOpen}>
+                  <BuildingLibraryIcon className="w-7 h-7" />
+               </SidebarLink>
+            </nav>
+
+            {/* Logout Link */}
+            <button
+               onClick={handleLogout}
+               className={`flex items-center gap-3 text-red-600 hover:text-red-800 transition-colors ${
+                  isOpen ? "justify-start" : "justify-center"
+               }`}
+               aria-label="Logout"
+               title="Logout"
+            >
+               <PowerIcon className="w-7 h-7" />
+               {isOpen && <span className="font-semibold">Logout</span>}
             </button>
-         </div>
-
-         <div className="flex flex-col gap-3">
-            <SidebarLink to="/t_home" name="Search" isOpen={isOpen}>
-               <MagnifyingGlassIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-            </SidebarLink>
-
-            <SidebarLink to="/SearchStudent" name="Profile" isOpen={isOpen}>
-               <IdentificationIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-            </SidebarLink>
-
-            <SidebarLink to="" name="Classes" isOpen={isOpen}>
-               <BookOpenIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-            </SidebarLink>
-
-            <SidebarLink to="" name="Verify Data" isOpen={isOpen}>
-               <CheckCircleIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-            </SidebarLink>
-
-            <SidebarLink to="" name="Settings" isOpen={isOpen}>
-               <Cog6ToothIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
-            </SidebarLink>
-         </div>
-      </motion.section>
+         </motion.nav>
+      </>
    );
 }
 

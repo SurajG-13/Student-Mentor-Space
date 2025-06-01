@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { MacbookScroll } from "../../components/MacBookScroll";
+import ContainerScroll from "../../components/ContainerScroll";
 
 const containerVariants = {
    hidden: { opacity: 0, y: 30 },
@@ -18,67 +20,77 @@ const itemVariants = {
 export default function Hero() {
    return (
       <>
-         <motion.main
-            className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-indigo-50 flex flex-col justify-center items-center px-6 py-16 text-gray-900"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-         >
-            <motion.h1
-               className="text-4xl md:text-5xl font-extrabold text-indigo-700 mb-6 text-center max-w-4xl"
-               variants={itemVariants}
+         <section>
+            <div className="flex flex-col overflow-hidden">
+               <ContainerScroll
+                  titleComponent={
+                     <>
+                        <h1 className="text-4xl font-semibold text-black dark:text-white">
+                           Academic Data Management <br />
+                           <span className="text-4xl md:text-[5rem] font-bold mt-1 leading-none">
+                              Student Mentor Space
+                           </span>
+                        </h1>
+                     </>
+                  }
+               >
+                  <img
+                     src={`/linear.webp`}
+                     alt="hero"
+                     height={720}
+                     width={1400}
+                     className="mx-auto rounded-2xl object-cover h-full object-left-top"
+                     draggable={false}
+                  />
+               </ContainerScroll>
+            </div>
+         </section>
+         {/* <section>
+            <motion.main
+               className="mt-20 bg-lightBackground dark:bg-darkBackground flex flex-col justify-center items-center px-6 py-16 text-gray-900 dark:text-gray-100"
+               initial="hidden"
+               animate="visible"
+               variants={containerVariants}
             >
-               Student Mentor Space
-            </motion.h1>
+               <motion.div
+                  className="grid place-content-center bg-inherit text-inherit w-[90vw]"
+                  variants={itemVariants}
+               >
+                  <h1 className="max-w-2xl text-center text-5xl leading-snug">
+                     Academic Data{" "}
+                     <span className="relative">
+                        Management
+                        <svg
+                           viewBox="0 0 286 73"
+                           fill="none"
+                           className="absolute -left-2 -right-2 -top-2 bottom-0 translate-y-1"
+                        >
+                           <motion.path
+                              initial={{ pathLength: 0 }}
+                              whileInView={{ pathLength: 1 }}
+                              transition={{
+                                 duration: 1.25,
+                                 ease: "easeInOut",
+                              }}
+                              d="M142.293 1C106.854 16.8908 6.08202 7.17705 1.23654 43.3756C-2.10604 68.3466 29.5633 73.2652 122.688 71.7518C215.814 70.2384 316.298 70.689 275.761 38.0785C230.14 1.37835 97.0503 24.4575 52.9384 1"
+                              stroke="#FACC15"
+                              strokeWidth="3"
+                           />
+                        </svg>
+                     </span>{" "}
+                     with Student Mentor Space
+                  </h1>
+               </motion.div>
 
-            <motion.p
-               className="text-lg md:text-xl text-center max-w-3xl mb-10 leading-relaxed"
-               variants={itemVariants}
-            >
-               Bridging the gap in academic management by providing a unified
-               platform for students and faculty to seamlessly track academic
-               progress, input marks, and communicate effectively.
-            </motion.p>
-
-            <motion.div
-               className="bg-indigo-100 rounded-xl shadow-lg p-8 max-w-4xl w-full"
-               variants={itemVariants}
-            >
-               <h2 className="text-2xl font-semibold text-indigo-800 mb-4 text-center">
-                  Key Features
-               </h2>
-               <ul className="list-disc list-inside space-y-3 text-indigo-900 text-lg">
-                  <li>
-                     Secure input and storage of student marks and curriculum
-                     details.
-                  </li>
-                  <li>
-                     Intuitive interface for students to update their academic
-                     progress.
-                  </li>
-                  <li>
-                     Easy access for faculty to evaluate and mentor students
-                     efficiently.
-                  </li>
-                  <li>
-                     Eliminates manual record keeping and fosters transparent
-                     communication.
-                  </li>
-                  <li>
-                     Performance tracking dashboard for both students and
-                     mentors.
-                  </li>
-               </ul>
-            </motion.div>
-
-            <motion.button
-               className="mt-12 px-8 py-3 bg-indigo-600 text-white rounded-full text-lg font-medium shadow-lg hover:bg-indigo-700 active:scale-95 transition-transform duration-150"
-               whileHover={{ scale: 1.05 }}
-               whileTap={{ scale: 0.95 }}
-            >
-               Get Started
-            </motion.button>
-         </motion.main>
+               <motion.p
+                  className="text-lg md:text-xl text-center max-w-3xl py-4 leading-relaxed"
+                  variants={itemVariants}
+               >
+                  Bridging the gap in academic management <br />
+                  by providing a unified platform for students and faculty
+               </motion.p>
+            </motion.main>
+         </section> */}
       </>
    );
 }

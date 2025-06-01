@@ -26,12 +26,12 @@ const studentSchema = new Schema(
 
       registrationNumber: {
          type: Number,
-         unique: true,
+         unique: false,
       },
 
       rollNumber: {
          type: Number,
-
+         index: true,
          unique: true,
       },
 
@@ -86,13 +86,13 @@ const studentSchema = new Schema(
       projects: [
          {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Project", // Ensure this references the Project model
+            ref: "Project",
          },
       ],
       certificates: [
          {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Certificate", // Ensure this references the Project model
+            ref: "Certificate",
          },
       ],
    },

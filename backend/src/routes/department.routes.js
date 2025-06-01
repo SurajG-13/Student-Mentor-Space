@@ -40,7 +40,7 @@ const router = express.Router();
 
 // Protect create, update and delete routes with verifyJWT
 router.post("/", verifyJWT, createDepartment);
-router.get("/", getDepartments);
+router.get("/getDepartments", getDepartments);
 router.get("/:departmentId", getDepartmentById);
 router.put("/:departmentId", verifyJWT, updateDepartment);
 router.delete("/:departmentId", verifyJWT, deleteDepartment);

@@ -118,7 +118,7 @@ const Register = () => {
                className="p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-lg max-w-lg w-full"
             >
                <div className="mb-6">
-                  <label className="block dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                  <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      Full Name
                   </label>
                   <input
@@ -127,13 +127,13 @@ const Register = () => {
                      placeholder="Full Name"
                      value={userData.fullName}
                      onChange={handleChange}
-                     className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                     className="w-full bg-inherit border text-primaryBlack dark:text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                      required
                   />
                </div>
 
                <div className="mb-6">
-                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                  <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      E-mail Address
                   </label>
                   <input
@@ -142,13 +142,13 @@ const Register = () => {
                      placeholder="you@xyz.com"
                      value={userData.eMail}
                      onChange={handleChange}
-                     className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                     className="w-full bg-inherit border text-primaryBlack dark:text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                      required
                   />
                </div>
 
                <div className="mb-6">
-                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                  <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      Password
                   </label>
                   <input
@@ -157,13 +157,13 @@ const Register = () => {
                      placeholder="Make sure to remember it!"
                      value={userData.userPassword}
                      onChange={handleChange}
-                     className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                     className="w-full bg-inherit border text-primaryBlack dark:text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                      required
                   />
                </div>
 
                <div className="mb-6">
-                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                  <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      Confirm Password
                   </label>
                   <input
@@ -172,13 +172,13 @@ const Register = () => {
                      placeholder="Confirm your password"
                      value={userData.confirmPassword}
                      onChange={handleChange}
-                     className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                     className="w-full bg-inherit border text-primaryBlack dark:text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                      required
                   />
                </div>
 
                <div className="mb-6">
-                  <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                  <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                      I am a
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -199,7 +199,7 @@ const Register = () => {
 
                {userData.role === "Teacher" && (
                   <div className="mb-6">
-                     <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                     <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                         Teacher Access Code
                      </label>
                      <input
@@ -208,7 +208,7 @@ const Register = () => {
                         placeholder="Enter Teacher Access Code"
                         value={userData.teacherAccessCode}
                         onChange={handleChange}
-                        className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-inherit border text-primaryBlack dark:text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                         required={userData.role === "Teacher"}
                      />
                   </div>
@@ -216,7 +216,7 @@ const Register = () => {
 
                {userData.role === "Student" && (
                   <div className="mb-6">
-                     <label className="block text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
+                     <label className="block text-primaryBlack dark:text-primaryWhite font-semibold mb-2 text-sm sm:text-base">
                         Student Roll Number
                      </label>
                      <input
@@ -225,7 +225,7 @@ const Register = () => {
                         placeholder="Enter Student Roll Number"
                         value={userData.studentRoll}
                         onChange={handleChange}
-                        className="w-full bg-inherit border text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-inherit border text-primaryBlack dark:text-primaryWhite py-3 px-4 rounded-3xl outline-none focus:ring-2 focus:ring-blue-500"
                         required={userData.role === "Student"}
                      />
                   </div>
@@ -236,7 +236,7 @@ const Register = () => {
                      whileHover={{ scale: 1.05 }}
                      whileTap={{ scale: 0.95 }}
                      type="submit"
-                     className="w-full py-3 px-6 text-lg text-primaryWhite bg-primaryGreen rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                     className="w-full border-2 py-3 px-6 text-lg text-primaryBlack dark:text-primaryWhite bg-primaryGreen rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                      Register
                   </motion.button>

@@ -31,11 +31,11 @@ function GetStarted() {
       <main className="flex h-screen w-screen overflow-hidden bg-lightBackground dark:bg-darkBackground">
          <section className="h-full w-full md:w-1/2 flex flex-col items-center justify-evenly p-6 md:p-12">
             <div className="text-center md:text-left">
-               <p className="text-4xl md:text-6xl font-bold font-spaceGrotesk">
+               <p className="text-4xl md:text-6xl font-bold font-spaceGrotesk text-primaryBlack dark:text-primaryWhite">
                   Get Started With <br />
                   Student Mentor Space
                </p>
-               <p className="text-lg md:text-xl font-sans mt-4">
+               <p className="text-lg md:text-xl font-sans mt-4 text-primaryBlack dark:text-primaryWhite">
                   Personalize your set-up accordingly
                </p>
 
@@ -45,7 +45,7 @@ function GetStarted() {
                         whileHover={{ backgroundColor: "#16423C" }}
                         ref={signInBoxClickedRef}
                         onClick={() => handleButtonClick("Teacher")}
-                        className="inline-flex text-lg md:text-2xl relative border bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3"
+                        className="inline-flex text-lg md:text-2xl relative bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3"
                      >
                         I am a Teacher
                         <HiArrowUpRight className="ml-2" />
@@ -57,7 +57,7 @@ function GetStarted() {
                         whileHover={{ backgroundColor: "#16423C" }}
                         ref={signInBoxClickedRef}
                         onClick={() => handleButtonClick("Student")}
-                        className="inline-flex text-lg md:text-2xl relative border bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3"
+                        className="inline-flex text-lg md:text-2xl relative bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3"
                      >
                         I am a Student
                         <HiArrowUpRight className="ml-2" />

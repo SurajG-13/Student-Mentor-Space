@@ -441,6 +441,313 @@
 
 // export default StudentProfile;
 
+// import React, { useState, useEffect } from "react";
+// import { motion } from "framer-motion";
+// import { useSelector } from "react-redux";
+// import S_Sidebar from "../S_Sidebar";
+// import axios from "axios";
+
+// function StudentProfile() {
+//    const [formData, setFormData] = useState({
+//       studentName: "",
+//       eMail: "",
+//       contactNumber: "",
+//       dateOfBirth: "",
+//       registrationNumber: "",
+//       rollNumber: "",
+//       department: "",
+//       localArea: "",
+//       postOffice: "",
+//       pinCode: "",
+//       xMarks: "",
+//       xiiMarks: "",
+//       diplomaMarks: "",
+//       admissionYear: "",
+//    });
+
+//    const [loading, setLoading] = useState(true);
+//    const rollNumber = useSelector((state) => state.user.studentInfo.roll);
+
+//    useEffect(() => {
+//       const fetchStudentData = async () => {
+//          try {
+//             const response = await axios.get(
+//                `http://localhost:8000/api/v1/students/profile/${rollNumber}`
+//             );
+//             const data = response.data;
+
+//             setFormData({
+//                ...data,
+//                department: data.department?._id || "",
+//                dateOfBirth: data.dateOfBirth
+//                   ? data.dateOfBirth.substring(0, 10)
+//                   : "",
+//                xMarks: data.xMarks || "",
+//                xiiMarks: data.xiiMarks || "",
+//                diplomaMarks: data.diplomaMarks || "",
+//                admissionYear: data.admissionYear || "",
+//                localArea: data.localArea || "",
+//                postOffice: data.postOffice || "",
+//                pinCode: data.pinCode || "",
+//                registrationNumber: data.registrationNumber || "",
+//                contactNumber: data.contactNumber || "",
+//                studentName: data.studentName || "",
+//                eMail: data.eMail || "",
+//                rollNumber: data.rollNumber || "",
+//             });
+//             setLoading(false);
+//          } catch (error) {
+//             console.error("Error fetching student data:", error);
+//             setLoading(false);
+//          }
+//       };
+
+//       if (rollNumber) {
+//          fetchStudentData();
+//       }
+//    }, [rollNumber]);
+
+//    const handleChange = (e) => {
+//       const { name, value } = e.target;
+//       setFormData((prev) => ({ ...prev, [name]: value }));
+//    };
+
+//    const handleSubmit = async (e) => {
+//       e.preventDefault();
+//       try {
+//          await axios.put(
+//             `http://localhost:8000/api/v1/students/update/${rollNumber}`,
+//             formData
+//          );
+//          alert("Profile updated successfully!");
+//       } catch (error) {
+//          console.error("Error updating profile:", error);
+//          alert("Error updating profile.");
+//       }
+//    };
+
+//    if (loading) return <div className="p-10">Loading...</div>;
+
+//    return (
+//       <main className="w-full min-h-screen flex flex-row bg-lightBackground dark:bg-darkBackground text-primaryBlack dark:text-primaryWhite">
+//          <S_Sidebar />
+
+//          <article className="flex-1 overflow-y-auto p-4 pt-20">
+//             <section className="max-w-6xl mx-auto">
+//                <motion.form
+//                   onSubmit={handleSubmit}
+//                   className="space-y-6"
+//                   initial={{ scale: 0.95 }}
+//                   animate={{ scale: 1 }}
+//                   transition={{ duration: 0.3 }}
+//                >
+//                   {/* Basic Details */}
+//                   <FormSection title="Basic Details">
+//                      <TwoColumn>
+//                         <InputField
+//                            label="Full Name"
+//                            name="studentName"
+//                            value={formData.studentName}
+//                            onChange={handleChange}
+//                            disabled
+//                         />
+//                         <InputField
+//                            label="Date of Birth"
+//                            name="dateOfBirth"
+//                            value={formData.dateOfBirth}
+//                            onChange={handleChange}
+//                            type="date"
+//                         />
+//                      </TwoColumn>
+//                   </FormSection>
+
+//                   {/* Contact Info */}
+//                   <FormSection title="Contact Information">
+//                      <TwoColumn>
+//                         <InputField
+//                            label="Email"
+//                            name="eMail"
+//                            value={formData.eMail}
+//                            onChange={handleChange}
+//                            type="email"
+//                            disabled
+//                         />
+//                         <InputField
+//                            label="Phone Number"
+//                            name="contactNumber"
+//                            value={formData.contactNumber}
+//                            onChange={handleChange}
+//                         />
+//                      </TwoColumn>
+//                   </FormSection>
+
+//                   {/* Address Info */}
+//                   <FormSection title="Address Information">
+//                      <TwoColumn>
+//                         <InputField
+//                            label="City"
+//                            name="localArea"
+//                            value={formData.localArea}
+//                            onChange={handleChange}
+//                         />
+//                         <InputField
+//                            label="Pin Code"
+//                            name="pinCode"
+//                            value={formData.pinCode}
+//                            onChange={handleChange}
+//                         />
+//                         <InputField
+//                            label="Post Office"
+//                            name="postOffice"
+//                            value={formData.postOffice}
+//                            onChange={handleChange}
+//                         />
+//                      </TwoColumn>
+//                   </FormSection>
+
+//                   {/* MAKAUT Info */}
+//                   <FormSection title="MAKAUT Information">
+//                      <TwoColumn>
+//                         <InputField
+//                            label="Roll Number"
+//                            name="rollNumber"
+//                            value={formData.rollNumber}
+//                            onChange={handleChange}
+//                            disabled
+//                         />
+//                         <InputField
+//                            label="Registration Number"
+//                            name="registrationNumber"
+//                            value={formData.registrationNumber}
+//                            onChange={handleChange}
+//                         />
+//                      </TwoColumn>
+//                   </FormSection>
+
+//                   {/* Marks */}
+//                   <FormSection title="Marks Information">
+//                      <TwoColumn>
+//                         <InputField
+//                            label="X Marks"
+//                            name="xMarks"
+//                            value={formData.xMarks}
+//                            onChange={handleChange}
+//                            type="number"
+//                         />
+//                         <InputField
+//                            label="XII Marks"
+//                            name="xiiMarks"
+//                            value={formData.xiiMarks}
+//                            onChange={handleChange}
+//                            type="number"
+//                         />
+//                         <InputField
+//                            label="Diploma Marks"
+//                            name="diplomaMarks"
+//                            value={formData.diplomaMarks}
+//                            onChange={handleChange}
+//                            type="number"
+//                         />
+//                      </TwoColumn>
+//                   </FormSection>
+
+//                   {/* College Info */}
+//                   <FormSection title="College Information">
+//                      <TwoColumn>
+//                         <InputField
+//                            label="Admission Year"
+//                            name="admissionYear"
+//                            value={formData.admissionYear}
+//                            onChange={handleChange}
+//                            type="number"
+//                         />
+//                         <div>
+//                            <label className="block mb-1">Department</label>
+//                            <select
+//                               id="department"
+//                               name="department"
+//                               value={formData.department}
+//                               onChange={handleChange}
+//                               required
+//                               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                            >
+//                               <option value="">Select Department</option>
+//                               <option value={import.meta.env.VITE_ME_ID}>
+//                                  Mechanical Engineering
+//                               </option>
+//                               <option value={import.meta.env.VITE_CSE_ID}>
+//                                  Computer Science and Engineering
+//                               </option>
+//                               <option value={import.meta.env.VITE_ECE_ID}>
+//                                  Electronics Communication Engineering
+//                               </option>
+//                               <option value={import.meta.env.VITE_IT_ID}>
+//                                  Information Technology
+//                               </option>
+//                               <option value={import.meta.env.VITE_AIML_ID}>
+//                                  Artificial Intelligence & Machine Learning
+//                               </option>
+//                            </select>
+//                         </div>
+//                      </TwoColumn>
+//                   </FormSection>
+
+//                   <div className="flex justify-end">
+//                      <button
+//                         type="submit"
+//                         className="mt-4 p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+//                      >
+//                         Update Profile
+//                      </button>
+//                   </div>
+//                </motion.form>
+//             </section>
+//          </article>
+//       </main>
+//    );
+// }
+
+// export default StudentProfile;
+
+// /** --------------------------
+//  * 📦 Reusable Components
+//  ----------------------------*/
+
+// const FormSection = ({ title, children }) => (
+//    <section className="space-y-2">
+//       <h3 className="text-lg font-semibold">{title}</h3>
+//       {children}
+//    </section>
+// );
+
+// const TwoColumn = ({ children }) => (
+//    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
+// );
+
+// const InputField = ({
+//    label,
+//    name,
+//    value,
+//    onChange,
+//    type = "text",
+//    disabled = false,
+// }) => (
+//    <div>
+//       <label className="block text-gray-700 mb-1" htmlFor={name}>
+//          {label}
+//       </label>
+//       <input
+//          type={type}
+//          id={name}
+//          name={name}
+//          value={value}
+//          onChange={onChange}
+//          required
+//          disabled={disabled}
+//          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+//       />
+//    </div>
+// );
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -465,39 +772,47 @@ function StudentProfile() {
       admissionYear: "",
    });
 
+   const [departments, setDepartments] = useState([]);
    const [loading, setLoading] = useState(true);
    const rollNumber = useSelector((state) => state.user.studentInfo.roll);
 
    useEffect(() => {
       const fetchStudentData = async () => {
          try {
-            const response = await axios.get(
-               `http://localhost:8000/api/v1/students/profile/${rollNumber}`
-            );
-            const data = response.data;
+            const [studentRes, departmentsRes] = await Promise.all([
+               axios.get(
+                  `http://localhost:8000/api/v1/students/profile/${rollNumber}`
+               ),
+               axios.get(
+                  "http://localhost:8000/api/v1/departments/getDepartments"
+               ),
+            ]);
+
+            const studentData = studentRes.data;
+            const departmentList = departmentsRes.data;
 
             setFormData({
-               ...data,
-               department: data.department?._id || "",
-               dateOfBirth: data.dateOfBirth
-                  ? data.dateOfBirth.substring(0, 10)
-                  : "",
-               xMarks: data.xMarks || "",
-               xiiMarks: data.xiiMarks || "",
-               diplomaMarks: data.diplomaMarks || "",
-               admissionYear: data.admissionYear || "",
-               localArea: data.localArea || "",
-               postOffice: data.postOffice || "",
-               pinCode: data.pinCode || "",
-               registrationNumber: data.registrationNumber || "",
-               contactNumber: data.contactNumber || "",
-               studentName: data.studentName || "",
-               eMail: data.eMail || "",
-               rollNumber: data.rollNumber || "",
+               ...studentData,
+               department: studentData.department?._id || "",
+               dateOfBirth: studentData.dateOfBirth?.substring(0, 10) || "",
+               xMarks: studentData.xMarks || "",
+               xiiMarks: studentData.xiiMarks || "",
+               diplomaMarks: studentData.diplomaMarks || "",
+               admissionYear: studentData.admissionYear || "",
+               localArea: studentData.localArea || "",
+               postOffice: studentData.postOffice || "",
+               pinCode: studentData.pinCode || "",
+               registrationNumber: studentData.registrationNumber || "",
+               contactNumber: studentData.contactNumber || "",
+               studentName: studentData.studentName || "",
+               eMail: studentData.eMail || "",
+               rollNumber: studentData.rollNumber || "",
             });
+
+            setDepartments(departmentList);
             setLoading(false);
          } catch (error) {
-            console.error("Error fetching student data:", error);
+            console.error("Error fetching data:", error);
             setLoading(false);
          }
       };
@@ -530,10 +845,11 @@ function StudentProfile() {
 
    return (
       <main className="w-full min-h-screen flex flex-row bg-lightBackground dark:bg-darkBackground text-primaryBlack dark:text-primaryWhite">
-         <S_Sidebar />
-
+               <S_Sidebar />     {" "}
          <article className="flex-1 overflow-y-auto p-4 pt-20">
+                   {" "}
             <section className="max-w-6xl mx-auto">
+                        {" "}
                <motion.form
                   onSubmit={handleSubmit}
                   className="space-y-6"
@@ -541,9 +857,11 @@ function StudentProfile() {
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.3 }}
                >
-                  {/* Basic Details */}
+                             {" "}
                   <FormSection title="Basic Details">
+                                  {" "}
                      <TwoColumn>
+                                       {" "}
                         <InputField
                            label="Full Name"
                            name="studentName"
@@ -551,6 +869,7 @@ function StudentProfile() {
                            onChange={handleChange}
                            disabled
                         />
+                                       {" "}
                         <InputField
                            label="Date of Birth"
                            name="dateOfBirth"
@@ -558,12 +877,15 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="date"
                         />
+                                     {" "}
                      </TwoColumn>
+                                {" "}
                   </FormSection>
-
-                  {/* Contact Info */}
+                             {" "}
                   <FormSection title="Contact Information">
+                                  {" "}
                      <TwoColumn>
+                                       {" "}
                         <InputField
                            label="Email"
                            name="eMail"
@@ -572,42 +894,51 @@ function StudentProfile() {
                            type="email"
                            disabled
                         />
+                                       {" "}
                         <InputField
                            label="Phone Number"
                            name="contactNumber"
                            value={formData.contactNumber}
                            onChange={handleChange}
                         />
+                                     {" "}
                      </TwoColumn>
+                                {" "}
                   </FormSection>
-
-                  {/* Address Info */}
+                             {" "}
                   <FormSection title="Address Information">
+                                  {" "}
                      <TwoColumn>
+                                       {" "}
                         <InputField
                            label="City"
                            name="localArea"
                            value={formData.localArea}
                            onChange={handleChange}
                         />
+                                       {" "}
                         <InputField
                            label="Pin Code"
                            name="pinCode"
                            value={formData.pinCode}
                            onChange={handleChange}
                         />
+                                       {" "}
                         <InputField
                            label="Post Office"
                            name="postOffice"
                            value={formData.postOffice}
                            onChange={handleChange}
                         />
+                                     {" "}
                      </TwoColumn>
+                                {" "}
                   </FormSection>
-
-                  {/* MAKAUT Info */}
+                             {" "}
                   <FormSection title="MAKAUT Information">
+                                  {" "}
                      <TwoColumn>
+                                       {" "}
                         <InputField
                            label="Roll Number"
                            name="rollNumber"
@@ -615,18 +946,22 @@ function StudentProfile() {
                            onChange={handleChange}
                            disabled
                         />
+                                       {" "}
                         <InputField
                            label="Registration Number"
                            name="registrationNumber"
                            value={formData.registrationNumber}
                            onChange={handleChange}
                         />
+                                     {" "}
                      </TwoColumn>
+                                {" "}
                   </FormSection>
-
-                  {/* Marks */}
+                             {" "}
                   <FormSection title="Marks Information">
+                                  {" "}
                      <TwoColumn>
+                                       {" "}
                         <InputField
                            label="X Marks"
                            name="xMarks"
@@ -634,6 +969,7 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
+                                       {" "}
                         <InputField
                            label="XII Marks"
                            name="xiiMarks"
@@ -641,6 +977,7 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
+                                       {" "}
                         <InputField
                            label="Diploma Marks"
                            name="diplomaMarks"
@@ -648,12 +985,15 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
+                                     {" "}
                      </TwoColumn>
+                                {" "}
                   </FormSection>
-
-                  {/* College Info */}
+                             {" "}
                   <FormSection title="College Information">
+                                  {" "}
                      <TwoColumn>
+                                       {" "}
                         <InputField
                            label="Admission Year"
                            name="admissionYear"
@@ -661,8 +1001,11 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
+                                       {" "}
                         <div>
-                           <label className="block mb-1">Department</label>
+                                            {" "}
+                           <label className="block mb-1">Department</label>     
+                                      {" "}
                            <select
                               id="department"
                               name="department"
@@ -671,52 +1014,51 @@ function StudentProfile() {
                               required
                               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                            >
-                              <option value="">Select Department</option>
-                              <option value={import.meta.env.VITE_ME_ID}>
-                                 Mechanical Engineering
-                              </option>
-                              <option value={import.meta.env.VITE_CSE_ID}>
-                                 Computer Science and Engineering
-                              </option>
-                              <option value={import.meta.env.VITE_ECE_ID}>
-                                 Electronics Communication Engineering
-                              </option>
-                              <option value={import.meta.env.VITE_IT_ID}>
-                                 Information Technology
-                              </option>
-                              <option value={import.meta.env.VITE_AIML_ID}>
-                                 Artificial Intelligence & Machine Learning
-                              </option>
+                                                 {" "}
+                              <option value="">Select Department</option>       
+                                         {" "}
+                              {departments.map((dept) => (
+                                 <option key={dept._id} value={dept._id}>
+                                                           {" "}
+                                    {dept.departmentName}                     {" "}
+                                 </option>
+                              ))}
+                                               {" "}
                            </select>
+                                          {" "}
                         </div>
+                                     {" "}
                      </TwoColumn>
+                                {" "}
                   </FormSection>
-
+                             {" "}
                   <div className="flex justify-end">
+                                  {" "}
                      <button
                         type="submit"
                         className="mt-4 p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                      >
-                        Update Profile
+                                        Update Profile              {" "}
                      </button>
+                                {" "}
                   </div>
+                           {" "}
                </motion.form>
+                      {" "}
             </section>
+                 {" "}
          </article>
+            {" "}
       </main>
    );
 }
 
 export default StudentProfile;
 
-/** --------------------------
- * 📦 Reusable Components
- ----------------------------*/
-
+// Reusable Layout Components
 const FormSection = ({ title, children }) => (
    <section className="space-y-2">
-      <h3 className="text-lg font-semibold">{title}</h3>
-      {children}
+          <h3 className="text-lg font-semibold">{title}</h3>    {children} {" "}
    </section>
 );
 
@@ -733,9 +1075,11 @@ const InputField = ({
    disabled = false,
 }) => (
    <div>
+         {" "}
       <label className="block text-gray-700 mb-1" htmlFor={name}>
-         {label}
+               {label}   {" "}
       </label>
+         {" "}
       <input
          type={type}
          id={name}
@@ -746,5 +1090,6 @@ const InputField = ({
          disabled={disabled}
          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+       {" "}
    </div>
 );

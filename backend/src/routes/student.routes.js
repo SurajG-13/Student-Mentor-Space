@@ -40,7 +40,8 @@ import {
    updateStudent,
    getStudent,
    getLoggedInStudentProfile,
-   logoutStudent, // <-- added
+   logoutStudent,
+   getStudentCount,
 } from "../controllers/student.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -64,5 +65,7 @@ router.post("/logout", verifyJWT, logoutStudent);
 // Uncomment and implement logout and refresh token routes as needed
 // router.route("/logout").post(verifyJWT, logoutStudent);
 // router.route("/refresh-token").post(refreshAccessToken);
+
+router.get("/count", getStudentCount);
 
 export default router;

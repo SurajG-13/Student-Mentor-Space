@@ -134,14 +134,6 @@ function S_Sidebar() {
                   <AcademicCapIcon className="w-7 h-7" />
                </SidebarLink>
 
-               <SidebarLink to="/attendance" name="Attendance" isOpen={isOpen}>
-                  <CalendarDateRangeIcon className="w-7 h-7" />
-               </SidebarLink>
-
-               <SidebarLink to="/clubs" name="Clubs" isOpen={isOpen}>
-                  <BookOpenIcon className="w-7 h-7" />
-               </SidebarLink>
-
                <SidebarLink
                   to="/S_Certificate"
                   name="Certifications"
