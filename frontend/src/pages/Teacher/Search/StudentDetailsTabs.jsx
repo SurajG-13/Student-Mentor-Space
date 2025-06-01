@@ -3,6 +3,7 @@ import SearchStudent from "./SearchStudent";
 import SearchProject from "./SearchProject";
 import SearchAcademics from "./SearchAcademics";
 import SearchCertificate from "./SearchCertificate";
+import SearchInternship from "./SearchInternship";
 
 function StudentDetailsTabs() {
    const tabs = [
@@ -37,7 +38,7 @@ function StudentDetailsTabs() {
          case "Certifications":
             return <SearchCertificate />;
          case "Internships":
-            return <Internships />;
+            return <SearchInternship />;
          case "Projects":
             return <SearchProject />;
          case "Others":

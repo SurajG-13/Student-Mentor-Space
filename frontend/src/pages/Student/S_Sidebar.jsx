@@ -146,7 +146,11 @@ function S_Sidebar() {
                   <CodeBracketIcon className="w-7 h-7" />
                </SidebarLink>
 
-               <SidebarLink to="/internship" name="Internship" isOpen={isOpen}>
+               <SidebarLink
+                  to="/s_internship"
+                  name="Internship"
+                  isOpen={isOpen}
+               >
                   <BuildingLibraryIcon className="w-7 h-7" />
                </SidebarLink>
             </nav>

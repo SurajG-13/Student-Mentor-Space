@@ -231,6 +231,7 @@ import StudentLayout from "./layout/StudentLayout.jsx";
 import TeacherLayout from "./layout/TeacherLayout.jsx";
 
 import { useSelector } from "react-redux";
+import S_Internship from "./pages/Student/Internship/S_Internship.jsx";
 
 // Wrapper component to use `useSelector` correctly
 function S_AcademicsWithToken() {
@@ -296,6 +297,14 @@ const router = createBrowserRouter(
             element={
                <StudentLayout>
                   <Project />
+               </StudentLayout>
+            }
+         />
+         <Route
+            path="s_internship"
+            element={
+               <StudentLayout>
+                  <S_Internship />
                </StudentLayout>
             }
          />
