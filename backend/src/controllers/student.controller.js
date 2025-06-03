@@ -463,3 +463,40 @@ export const getStudentCount = async (req, res) => {
       res.status(500).json({ error: "Failed to get student count" });
    }
 };
+
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
+
+export const getStudentsByDeptAndSemester = async (req, res) => {
+   try {
+      const { department, semester } = req.query;
+
+      if (!department || !semester) {
+         return res
+            .status(400)
+            .json({ error: "Missing department or semester parameter." });
+      }
+
+      if (!isValidObjectId(department)) {
+         return res.status(400).json({ error: "Invalid department ID." });
+      }
+
+      const semesterNo = Number(semester);
+      if (isNaN(semesterNo)) {
+         return res.status(400).json({ error: "Invalid semester number." });
+      }
+
+      const students = await Student.find({
+         department,
+         currentSemester: semesterNo,
+      }).select("studentName rollNumber department currentSemester");
+
+      if (!students || students.length === 0) {
+         return res.status(404).json({ error: "No students found." });
+      }
+
+      res.status(200).json(students);
+   } catch (error) {
+      console.error("Error fetching students:", error);
+      res.status(500).json({ error: "Internal server error." });
+   }
+};

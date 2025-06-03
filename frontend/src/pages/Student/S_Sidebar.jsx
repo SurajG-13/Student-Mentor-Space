@@ -153,6 +153,14 @@ function S_Sidebar() {
                >
                   <BuildingLibraryIcon className="w-7 h-7" />
                </SidebarLink>
+
+               <SidebarLink
+                  to="/StudentAttendance"
+                  name="Attendance"
+                  isOpen={isOpen}
+               >
+                  <BuildingLibraryIcon className="w-7 h-7" />
+               </SidebarLink>
             </nav>
 
             {/* Logout Link */}

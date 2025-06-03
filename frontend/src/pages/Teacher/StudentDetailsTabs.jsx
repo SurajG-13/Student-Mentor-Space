@@ -1,9 +1,10 @@
 import { useState } from "react";
-import SearchStudent from "./SearchStudent";
-import SearchProject from "./SearchProject";
-import SearchAcademics from "./SearchAcademics";
-import SearchCertificate from "./SearchCertificate";
-import SearchInternship from "./SearchInternship";
+
+import SearchProfile from "./Search/SearchProfile";
+import SearchAcademics from "./Search/SearchAcademics";
+import SearchProject from "./Search/SearchProject";
+import SearchCertificate from "./Search/SearchCertificate";
+import SearchInternship from "./Search/SearchInternship";
 
 function StudentDetailsTabs() {
    const tabs = [
@@ -12,27 +13,15 @@ function StudentDetailsTabs() {
       "Certifications",
       "Internships",
       "Projects",
-      "Others",
    ];
 
    const [activeTab, setActiveTab] = useState("Basic Details");
-
-   // Dummy components for other tabs
-   const Academics = () => <div>Academics information will be shown here.</div>;
-   const Certifications = () => (
-      <div>Certifications information will be shown here.</div>
-   );
-   const Internships = () => (
-      <div>Internships information will be shown here.</div>
-   );
-
-   const Others = () => <div>Other details will be shown here.</div>;
 
    // Render content based on activeTab
    const renderContent = () => {
       switch (activeTab) {
          case "Basic Details":
-            return <SearchStudent />;
+            return <SearchProfile />;
          case "Academics":
             return <SearchAcademics />;
          case "Certifications":
@@ -41,8 +30,7 @@ function StudentDetailsTabs() {
             return <SearchInternship />;
          case "Projects":
             return <SearchProject />;
-         case "Others":
-            return <Others />;
+
          default:
             return null;
       }
@@ -50,7 +38,7 @@ function StudentDetailsTabs() {
 
    return (
       <div className="w-full max-w-5xl mx-auto">
-         <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
+         <div className="flex flex-wrap justify-center items-center gap-4 mb-6 ">
             {tabs.map((tab) => (
                <button
                   key={tab}

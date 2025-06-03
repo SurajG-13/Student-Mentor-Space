@@ -42,6 +42,7 @@ import {
    getLoggedInStudentProfile,
    logoutStudent,
    getStudentCount,
+   getStudentsByDeptAndSemester,
 } from "../controllers/student.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -67,5 +68,10 @@ router.post("/logout", verifyJWT, logoutStudent);
 // router.route("/refresh-token").post(refreshAccessToken);
 
 router.get("/count", getStudentCount);
-
+/**
+ * @route   GET /api/students?department=...&semester=...
+ * @desc    Get students filtered by department and semester
+ * @access  Protected (Teacher or Student)
+ */
+router.get("/", verifyJWT, getStudentsByDeptAndSemester);
 export default router;

@@ -770,6 +770,7 @@ function StudentProfile() {
       xiiMarks: "",
       diplomaMarks: "",
       admissionYear: "",
+      currentSemester: "",
    });
 
    const [departments, setDepartments] = useState([]);
@@ -783,9 +784,7 @@ function StudentProfile() {
                axios.get(
                   `http://localhost:8000/api/v1/students/profile/${rollNumber}`
                ),
-               axios.get(
-                  "http://localhost:8000/api/v1/departments/getDepartments"
-               ),
+               axios.get("http://localhost:8000/api/v1/departments/"),
             ]);
 
             const studentData = studentRes.data;
@@ -807,6 +806,7 @@ function StudentProfile() {
                studentName: studentData.studentName || "",
                eMail: studentData.eMail || "",
                rollNumber: studentData.rollNumber || "",
+               currentSemester: studentData.currentSemester || "",
             });
 
             setDepartments(departmentList);
@@ -998,6 +998,13 @@ function StudentProfile() {
                            label="Admission Year"
                            name="admissionYear"
                            value={formData.admissionYear}
+                           onChange={handleChange}
+                           type="number"
+                        />
+                        <InputField
+                           label="Current Semester"
+                           name="currentSemester"
+                           value={formData.currentSemester}
                            onChange={handleChange}
                            type="number"
                         />

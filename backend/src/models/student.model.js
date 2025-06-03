@@ -24,6 +24,10 @@ const studentSchema = new Schema(
          ref: "Department",
       },
 
+      currentSemester: {
+         type: Number,
+         default: 1,
+      },
       registrationNumber: {
          type: Number,
          unique: false,

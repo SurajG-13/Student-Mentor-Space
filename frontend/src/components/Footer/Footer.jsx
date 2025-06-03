@@ -8,7 +8,7 @@ const Footer = () => {
    };
 
    return (
-      <footer className="h-[50vh] bg-lightBackground dark:bg-darkBackground  text-primaryBlack dark:text-primaryWhite py-16 px-8 md:px-20 transition-colors duration-300">
+      <footer className="h-[40vh] bg-lightBackground dark:bg-darkBackground  text-primaryBlack dark:text-primaryWhite py-16 px-8 md:px-20  transition-colors duration-300">
          <main className="grid grid-cols-2">
             <section className="text-7xl font-bold">
                Student <br /> Mentor Space
