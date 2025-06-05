@@ -379,7 +379,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import S_Sidebar from "../S_Sidebar";
+import StudentHeader from "../HeaderLinks/StudentHeader.jsx";
 
 function Project() {
    const [formData, setFormData] = useState({
@@ -576,8 +576,8 @@ function Project() {
    }
 
    return (
-      <main className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden">
-         <S_Sidebar />
+      <main className="min-h-screen min-w-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden">
+         <StudentHeader />
 
          <section className="flex-grow p-8 max-w-7xl mx-auto w-full overflow-y-auto">
             <header className="flex justify-between items-center mb-8">

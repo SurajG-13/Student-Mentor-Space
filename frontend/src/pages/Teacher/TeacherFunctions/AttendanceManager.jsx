@@ -66,7 +66,8 @@ function AttendanceManager() {
       }
    }, [departmentId, semesterNo]);
 
-   // Generate dates between start and end
+   // Generate Dates between Start and End
+
    useEffect(() => {
       if (startDate && endDate) {
          let arr = [];
@@ -82,33 +83,7 @@ function AttendanceManager() {
       }
    }, [startDate, endDate]);
 
-   // Fetch attendance when subject changes
-   //    useEffect(() => {
-   //       if (subjectId && students.length > 0) {
-   //          setLoading(true);
-   //          // Assume API returns attendance records for all students for this subject
-   //          axios
-   //             .get(`${API_BASE}/attendances?subject=${subjectId}`, {
-   //                headers: { Authorization: `Bearer ${token}` },
-   //             })
-   //             .then((res) => {
-   //                // Map attendance: { studentId: { date: status } }
-   //                const attMap = {};
-   //                res.data.forEach((record) => {
-   //                   attMap[record.student._id] = {};
-   //                   record.attendanceRecords.forEach((ar) => {
-   //                      attMap[record.student._id][ar.date.slice(0, 10)] =
-   //                         ar.status;
-   //                   });
-   //                });
-   //                setAttendance(attMap);
-   //             })
-   //             .catch(() => setAttendance({}))
-   //             .finally(() => setLoading(false));
-   //       } else {
-   //          setAttendance({});
-   //       }
-   //    }, [subjectId, students]);
+   // Fetch Attendance Data When Subject Changes
 
    useEffect(() => {
       if (subjectId && students.length > 0) {
@@ -149,47 +124,8 @@ function AttendanceManager() {
       }));
    };
 
-   // Save attendance
-   //    const handleSave = async () => {
-   //       setLoading(true);
-   //       setError("");
-   //       try {
-   //          for (const student of students) {
-   //             const records = dates
-   //                .filter((date) => attendance[student._id]?.[date])
-   //                .map((date) => ({
-   //                   date,
-   //                   status: attendance[student._id][date],
-   //                }));
+   // Save Attendance
 
-   //             await axios
-   //                .post(
-   //                   `${API_BASE}/attendance`,
-   //                   {
-   //                      student: student._id,
-   //                      subject: subjectId,
-   //                      semesterNo: Number(semesterNo),
-   //                      department: departmentId,
-   //                      attendanceRecords: records,
-   //                   },
-   //                   { headers: { Authorization: `Bearer ${token}` } }
-   //                )
-   //                .catch((err) => {
-   //                   console.error(
-   //                      "Attendance save error:",
-   //                      err.response?.data || err.message
-   //                   );
-   //                   setError(
-   //                      err.response?.data?.error || "Failed to save attendance."
-   //                   );
-   //                });
-   //          }
-   //          alert("Attendance saved successfully!");
-   //       } catch (err) {
-   //          setError("Failed to save attendance.");
-   //       }
-   //       setLoading(false);
-   //    };
    const handleSave = async () => {
       setLoading(true);
       setError("");
@@ -244,7 +180,7 @@ function AttendanceManager() {
    };
 
    return (
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-lightBackground dark:bg-darkBackground">
          <TeacherHeader />
 
          {error && (
@@ -295,7 +231,7 @@ function AttendanceManager() {
          </div>
 
          {/* Semester duration */}
-         <div className="flex  items-center justify-center gap-8 mb-4 flex-wrap">
+         <div className="flex text-primaryBlack dark:text-primaryWhite items-center justify-center gap-8 mb-4 flex-wrap">
             <label>
                Start Date:
                <input
@@ -322,65 +258,16 @@ function AttendanceManager() {
          {loading ? (
             <div>Loading...</div>
          ) : students.length === 0 ? (
-            <p className="flex justify-center mt-24 text-xl font-bold text-red-600">
+            <p className="flex justify-center mt-60 text-xl font-bold text-red-600">
                No Students Found for Selected Department and Semester.
             </p>
          ) : dates.length === 0 ? (
-            <p className="flex justify-center mt-24 text-xl font-bold text-red-600">
+            <p className="flex justify-center mt-60 text-xl font-bold text-red-600">
                Please Select a Semester Duration to Mark Attendance.
             </p>
          ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto m-20">
                <table className="min-w-full border border-collapse border-gray-300">
-                  {/* <thead>
-                     <tr className="bg-gray-100">
-                        <th className="border p-2 sticky left-0 bg-gray-100 z-10">
-                           Roll Number
-                        </th>
-                        <th className="border p-2 sticky left-0 bg-gray-100 z-10">
-                           Student Name
-                        </th>
-                        {dates.map((date) => (
-                           <th key={date} className="border p-2">
-                              {dayjs(date).format("MMM D")}
-                           </th>
-                        ))}
-                     </tr>
-                  </thead> 
-                  <tbody>
-                     {students.map((student) => (
-                        <tr key={student._id}>
-                           <td className="border p-2 sticky left-0 bg-white z-0">
-                              {student.rollNumber}
-                           </td>
-                           <td className="border p-2 sticky left-0 bg-white z-0">
-                              {student.studentName}
-                           </td>
-                           {dates.map((date) => (
-                              <td key={date} className="border p-1 text-center">
-                                 <select
-                                    value={
-                                       attendance[student._id]?.[date] || ""
-                                    }
-                                    onChange={(e) =>
-                                       handleAttendanceChange(
-                                          student._id,
-                                          date,
-                                          e.target.value
-                                       )
-                                    }
-                                    className="border rounded p-1 w-full"
-                                 >
-                                    <option value="">-</option>
-                                    <option value="present">P</option>
-                                    <option value="absent">A</option>
-                                    <option value="leave">L</option>
-                                 </select>
-                              </td>
-                           ))}
-                        </tr>
-                     ))}
-                  </tbody>*/}
                   <thead>
                      <tr className="bg-lightBackground dark:bg-darkBackground pt-12">
                         <th
@@ -390,7 +277,7 @@ function AttendanceManager() {
                            Roll Number
                         </th>
                         <th
-                           className="border p-2 sticky left-[120px] bg-gray-100 z-20"
+                           className="border p-2 sticky left-[120px] text-primaryBlack dark:text-primaryWhite z-20"
                            style={{ minWidth: 200, left: 120 }}
                         >
                            Student Name
@@ -406,19 +293,22 @@ function AttendanceManager() {
                      {students.map((student) => (
                         <tr key={student._id}>
                            <td
-                              className="border p-2 sticky left-0 bg-white z-10"
+                              className="border text-primaryBlack dark:text-primaryWhite p-2 sticky left-0 bg-lightBackground dark:bg-darkBackground z-10 items-center justify-center flex"
                               style={{ minWidth: 120, left: 0 }}
                            >
                               {student.rollNumber}
                            </td>
                            <td
-                              className="border p-2 sticky left-[120px] bg-white z-10"
+                              className="text-primaryBlack dark:text-primaryWhite items-center justify-center p-2 sticky left-[120px] bg-lightBackground dark:bg-darkBackground z-10 "
                               style={{ minWidth: 200, left: 120 }}
                            >
                               {student.studentName}
                            </td>
                            {dates.map((date) => (
-                              <td key={date} className="border p-1 text-center">
+                              <td
+                                 key={date}
+                                 className="border p-1 text-center text-primaryBlack dark:text-primaryWhite"
+                              >
                                  <select
                                     value={
                                        attendance[student._id]?.[date] || ""
@@ -430,7 +320,7 @@ function AttendanceManager() {
                                           e.target.value
                                        )
                                     }
-                                    className="border rounded p-1 w-full"
+                                    className="border rounded p-1 w-full text-primaryBlack dark:text-highlightWhite "
                                  >
                                     <option value="">-</option>
                                     <option value="present">P</option>
@@ -445,20 +335,6 @@ function AttendanceManager() {
                </table>
             </div>
          )}
-         {/* 
-         <button
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-            onClick={handleSave}
-            disabled={
-               loading ||
-               !subjectId ||
-               !startDate ||
-               !endDate ||
-               students.length === 0
-            }
-         >
-            Save Attendance
-         </button> */}
 
          {!loading &&
             subjectId &&
@@ -466,7 +342,7 @@ function AttendanceManager() {
             endDate &&
             students.length > 0 && (
                <button
-                  className="border-red-900 border-4 mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="m-10 p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-sm"
                   onClick={handleSave}
                >
                   Save Attendance

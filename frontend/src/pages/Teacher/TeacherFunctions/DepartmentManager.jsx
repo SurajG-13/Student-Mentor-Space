@@ -109,10 +109,12 @@ function DepartmentManager() {
    };
 
    return (
-      <main className="w-screen min-h-screen border-4 border-blue-500">
+      <main className="w-screen min-h-screen bg-lightBackground dark:bg-darkBackground">
          <TeacherHeader />
          <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">Department</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center text-primaryBlack dark:text-primaryWhite">
+               Department
+            </h1>
 
             {error && (
                <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">
@@ -125,9 +127,9 @@ function DepartmentManager() {
                onSubmit={handleSubmit}
                initial={{ opacity: 0, y: -10 }}
                animate={{ opacity: 1, y: 0 }}
-               className="bg-white p-6 rounded shadow mb-10"
+               className="bg-lightBackground dark:bg-darkBackground p-6 rounded mb-10 border"
             >
-               <h2 className="text-xl font-semibold mb-4">
+               <h2 className="text-xl font-semibold mb-4 text-primaryBlack dark:text-primaryWhite">
                   {editingId ? "Edit Department" : "Add New Department"}
                </h2>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -181,7 +183,7 @@ function DepartmentManager() {
             ) : (
                <div className="overflow-x-auto">
                   <table className="min-w-full border rounded shadow">
-                     <thead className="bg-gray-100">
+                     <thead className="text-primaryBlack dark:text-primaryWhite">
                         <tr>
                            <th className="p-2 border">Department Name</th>
                            <th className="p-2 border">Department Symbol</th>
@@ -190,7 +192,10 @@ function DepartmentManager() {
                      </thead>
                      <tbody>
                         {departments.map((d) => (
-                           <tr key={d._id} className="text-center">
+                           <tr
+                              key={d._id}
+                              className="text-center text-primaryBlack dark:text-primaryWhite"
+                           >
                               <td className="p-2 border">{d.departmentName}</td>
                               <td className="p-2 border">
                                  {d.departmentSymbol}

@@ -57,7 +57,7 @@ const StudentLogin = () => {
          localStorage.setItem("studentName", student.studentName);
          localStorage.setItem("rollNumber", student.rollNumber);
 
-         navigate("/s_home");
+         navigate("/s_basicdetails");
          closeModal();
       } catch (error) {
          console.error("Login error:", error);

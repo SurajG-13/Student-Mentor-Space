@@ -5,11 +5,13 @@ import SearchAcademics from "./Search/SearchAcademics";
 import SearchProject from "./Search/SearchProject";
 import SearchCertificate from "./Search/SearchCertificate";
 import SearchInternship from "./Search/SearchInternship";
+import SearchAttendance from "./Search/SearchAttendance";
 
 function StudentDetailsTabs() {
    const tabs = [
       "Basic Details",
       "Academics",
+      "Attendance",
       "Certifications",
       "Internships",
       "Projects",
@@ -24,6 +26,8 @@ function StudentDetailsTabs() {
             return <SearchProfile />;
          case "Academics":
             return <SearchAcademics />;
+         case "Attendance":
+            return <SearchAttendance />;
          case "Certifications":
             return <SearchCertificate />;
          case "Internships":
@@ -37,7 +41,7 @@ function StudentDetailsTabs() {
    };
 
    return (
-      <div className="w-full max-w-5xl mx-auto">
+      <div className="overflow-hidden">
          <div className="flex flex-wrap justify-center items-center gap-4 mb-6 ">
             {tabs.map((tab) => (
                <button
@@ -54,7 +58,7 @@ function StudentDetailsTabs() {
             ))}
          </div>
 
-         <div className="p-6 bg-white rounded-lg shadow-md min-h-[300px]">
+         <div className="p-2 bg-whiteBackground dark:bg-darkBackground">
             {renderContent()}
          </div>
       </div>

@@ -907,6 +907,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import StudentHeader from "../HeaderLinks/StudentHeader.jsx";
 
 const initialMarksTemplate = {
    ca1: "",
@@ -1142,117 +1143,126 @@ export default function S_Academics({ token }) {
    }
 
    return (
-      <div className="max-w-5xl mx-auto p-6">
-         <motion.h1
-            className="text-3xl font-bold mb-6 text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-         >
-            Academic Marks Management
-         </motion.h1>
-
-         {/* Semester Selector */}
-         <div className="mb-6 flex justify-center">
-            <label
-               htmlFor="semester"
-               className="mr-3 font-semibold self-center"
+      <main className="min-w-screen min-h-screen">
+         {" "}
+         <StudentHeader />
+         <div className="max-w-5xl mx-auto p-6">
+            <motion.h1
+               className="text-3xl font-bold mb-6 text-center"
+               initial={{ opacity: 0, y: -20 }}
+               animate={{ opacity: 1, y: 0 }}
             >
-               Select Semester:
-            </label>
-            <select
-               id="semester"
-               className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-               value={semesterNo}
-               onChange={(e) => setSemesterNo(e.target.value)}
-            >
-               <option value="">-- Select --</option>
-               {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                  <option key={sem} value={sem}>
-                     Semester {sem}
-                  </option>
-               ))}
-            </select>
-         </div>
+               Academic Marks Management
+            </motion.h1>
 
-         {(loadingSubjects || loadingMarks) && (
-            <p className="text-center text-gray-600">Loading data...</p>
-         )}
+            {/* Semester Selector */}
+            <div className="mb-6 flex justify-center">
+               <label
+                  htmlFor="semester"
+                  className="mr-3 font-semibold self-center"
+               >
+                  Select Semester:
+               </label>
+               <select
+                  id="semester"
+                  className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={semesterNo}
+                  onChange={(e) => setSemesterNo(e.target.value)}
+               >
+                  <option value="">-- Select --</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
+                     <option key={sem} value={sem}>
+                        Semester {sem}
+                     </option>
+                  ))}
+               </select>
+            </div>
 
-         {message && (
-            <p className="text-center text-green-600 mb-4">{message}</p>
-         )}
-         {error && <p className="text-center text-red-600 mb-4">{error}</p>}
+            {(loadingSubjects || loadingMarks) && (
+               <p className="text-center text-gray-600">Loading data...</p>
+            )}
 
-         {semesterNo && subjects.length > 0 && (
-            <form onSubmit={handleSubmit} className="overflow-x-auto">
-               <table className="min-w-full border border-gray-300 rounded">
-                  <thead className="bg-gray-100">
-                     <tr>
-                        <th className="border px-4 py-2 text-left">Subject</th>
-                        <th className="border px-4 py-2">CA1</th>
-                        <th className="border px-4 py-2">CA2</th>
-                        <th className="border px-4 py-2">CA3</th>
-                        <th className="border px-4 py-2">CA4</th>
-                        <th className="border px-4 py-2">PCA1</th>
-                        <th className="border px-4 py-2">PCA2</th>
-                        <th className="border px-4 py-2">Final</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     {subjects.map((subject) => (
-                        <tr key={subject._id} className="hover:bg-gray-50">
-                           <td className="border px-4 py-2 font-semibold">
-                              {subject.subjectName}
-                           </td>
-                           {Object.keys(initialMarksTemplate).map((field) => (
-                              <td
-                                 key={field}
-                                 className="border px-2 py-1 text-center"
-                              >
-                                 <input
-                                    type="number"
-                                    min="0"
-                                    max="100"
-                                    step="0.01"
-                                    className="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    value={
-                                       marksData[subject._id]?.[field] ?? ""
-                                    }
-                                    onChange={(e) =>
-                                       handleInputChange(
-                                          subject._id,
-                                          field,
-                                          e.target.value
-                                       )
-                                    }
-                                    placeholder="0"
-                                 />
-                              </td>
-                           ))}
+            {message && (
+               <p className="text-center text-green-600 mb-4">{message}</p>
+            )}
+            {error && <p className="text-center text-red-600 mb-4">{error}</p>}
+
+            {semesterNo && subjects.length > 0 && (
+               <form onSubmit={handleSubmit} className="overflow-x-auto">
+                  <table className="min-w-full border border-gray-300 rounded">
+                     <thead className="bg-gray-100">
+                        <tr>
+                           <th className="border px-4 py-2 text-left">
+                              Subject
+                           </th>
+                           <th className="border px-4 py-2">CA1</th>
+                           <th className="border px-4 py-2">CA2</th>
+                           <th className="border px-4 py-2">CA3</th>
+                           <th className="border px-4 py-2">CA4</th>
+                           <th className="border px-4 py-2">PCA1</th>
+                           <th className="border px-4 py-2">PCA2</th>
+                           <th className="border px-4 py-2">Final</th>
                         </tr>
-                     ))}
-                  </tbody>
-               </table>
+                     </thead>
+                     <tbody>
+                        {subjects.map((subject) => (
+                           <tr key={subject._id} className="hover:bg-gray-50">
+                              <td className="border px-4 py-2 font-semibold">
+                                 {subject.subjectName}
+                              </td>
+                              {Object.keys(initialMarksTemplate).map(
+                                 (field) => (
+                                    <td
+                                       key={field}
+                                       className="border px-2 py-1 text-center"
+                                    >
+                                       <input
+                                          type="number"
+                                          min="0"
+                                          max="100"
+                                          step="0.01"
+                                          className="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                          value={
+                                             marksData[subject._id]?.[field] ??
+                                             ""
+                                          }
+                                          onChange={(e) =>
+                                             handleInputChange(
+                                                subject._id,
+                                                field,
+                                                e.target.value
+                                             )
+                                          }
+                                          placeholder="0"
+                                       />
+                                    </td>
+                                 )
+                              )}
+                           </tr>
+                        ))}
+                     </tbody>
+                  </table>
 
-               <div className="flex justify-center mt-6">
-                  <button
-                     type="submit"
-                     disabled={saving}
-                     className={`px-6 py-3 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 ${
-                        saving ? "opacity-50 cursor-not-allowed" : ""
-                     }`}
-                  >
-                     {saving ? "Saving..." : "Save Marks"}
-                  </button>
-               </div>
-            </form>
-         )}
+                  <div className="flex justify-center mt-6">
+                     <button
+                        type="submit"
+                        disabled={saving}
+                        className={`px-6 py-3 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 ${
+                           saving ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                     >
+                        {saving ? "Saving..." : "Save Marks"}
+                     </button>
+                  </div>
+               </form>
+            )}
 
-         {semesterNo && !loadingSubjects && subjects.length === 0 && (
-            <p className="text-center text-gray-600">
-               No subjects found for this semester.
-            </p>
-         )}
-      </div>
+            {semesterNo && !loadingSubjects && subjects.length === 0 && (
+               <p className="text-center text-gray-600">
+                  No subjects found for this semester.
+               </p>
+            )}
+         </div>
+      </main>
    );
 }

@@ -8,6 +8,7 @@ import {
    ChartBarIcon,
    ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
+import StudentHeader from "../HeaderLinks/StudentHeader";
 
 const stats = [
    {
@@ -83,9 +84,10 @@ const itemVariants = {
 
 export default function S_Home() {
    return (
-      <div className="flex h-screen bg-gray-50 text-gray-900">
+      <div className="min-w-screen min-h-screen border-4 border-blue-500">
          {/* Sidebar */}
-         <S_Sidebar />
+         {/* <S_Sidebar /> */}
+         <StudentHeader />
 
          {/* Main content */}
          <main className="flex-grow overflow-y-auto p-8 min-h-screen">

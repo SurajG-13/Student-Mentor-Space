@@ -753,6 +753,7 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import S_Sidebar from "../S_Sidebar";
 import axios from "axios";
+import StudentHeader from "../HeaderLinks/StudentHeader";
 
 function StudentProfile() {
    const [formData, setFormData] = useState({
@@ -844,24 +845,232 @@ function StudentProfile() {
    if (loading) return <div className="p-10">Loading...</div>;
 
    return (
-      <main className="w-full min-h-screen flex flex-row bg-lightBackground dark:bg-darkBackground text-primaryBlack dark:text-primaryWhite">
-               <S_Sidebar />     {" "}
-         <article className="flex-1 overflow-y-auto p-4 pt-20">
-                   {" "}
-            <section className="max-w-6xl mx-auto">
-                        {" "}
+      // <main className="min-w-screen min-h-screen bg-lightBackground dark:bg-darkBackground text-primaryBlack dark:text-primaryWhite">
+      //    <StudentHeader />
+      //    <article className="flex-1 overflow-y-auto p-2 pt-16">
+      //       <section className="max-w-5xl mx-auto">
+      //          <motion.form
+      //             onSubmit={handleSubmit}
+      //             className="space-y-4"
+      //             initial={{ scale: 0.95 }}
+      //             animate={{ scale: 1 }}
+      //             transition={{ duration: 0.3 }}
+      //          >
+      //                        {" "}
+      //             <FormSection title="Basic Details">
+      //                             {" "}
+      //                <TwoColumn>
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Full Name"
+      //                      name="studentName"
+      //                      value={formData.studentName}
+      //                      onChange={handleChange}
+      //                      disabled
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Date of Birth"
+      //                      name="dateOfBirth"
+      //                      value={formData.dateOfBirth}
+      //                      onChange={handleChange}
+      //                      type="date"
+      //                   />
+      //                                {" "}
+      //                </TwoColumn>
+      //                           {" "}
+      //             </FormSection>
+      //                        {" "}
+      //             <FormSection title="Contact Information">
+      //                             {" "}
+      //                <TwoColumn>
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Email"
+      //                      name="eMail"
+      //                      value={formData.eMail}
+      //                      onChange={handleChange}
+      //                      type="email"
+      //                      disabled
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Phone Number"
+      //                      name="contactNumber"
+      //                      value={formData.contactNumber}
+      //                      onChange={handleChange}
+      //                   />
+      //                                {" "}
+      //                </TwoColumn>
+      //                           {" "}
+      //             </FormSection>
+      //                        {" "}
+      //             <FormSection title="Address Information">
+      //                             {" "}
+      //                <TwoColumn>
+      //                                  {" "}
+      //                   <InputField
+      //                      label="City"
+      //                      name="localArea"
+      //                      value={formData.localArea}
+      //                      onChange={handleChange}
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Pin Code"
+      //                      name="pinCode"
+      //                      value={formData.pinCode}
+      //                      onChange={handleChange}
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Post Office"
+      //                      name="postOffice"
+      //                      value={formData.postOffice}
+      //                      onChange={handleChange}
+      //                   />
+      //                                {" "}
+      //                </TwoColumn>
+      //                           {" "}
+      //             </FormSection>
+      //                        {" "}
+      //             <FormSection title="MAKAUT Information">
+      //                             {" "}
+      //                <TwoColumn>
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Roll Number"
+      //                      name="rollNumber"
+      //                      value={formData.rollNumber}
+      //                      onChange={handleChange}
+      //                      disabled
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Registration Number"
+      //                      name="registrationNumber"
+      //                      value={formData.registrationNumber}
+      //                      onChange={handleChange}
+      //                   />
+      //                                {" "}
+      //                </TwoColumn>
+      //                           {" "}
+      //             </FormSection>
+      //                        {" "}
+      //             <FormSection title="Marks Information">
+      //                             {" "}
+      //                <TwoColumn>
+      //                                  {" "}
+      //                   <InputField
+      //                      label="X Marks"
+      //                      name="xMarks"
+      //                      value={formData.xMarks}
+      //                      onChange={handleChange}
+      //                      type="number"
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="XII Marks"
+      //                      name="xiiMarks"
+      //                      value={formData.xiiMarks}
+      //                      onChange={handleChange}
+      //                      type="number"
+      //                   />
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Diploma Marks"
+      //                      name="diplomaMarks"
+      //                      value={formData.diplomaMarks}
+      //                      onChange={handleChange}
+      //                      type="number"
+      //                   />
+      //                                {" "}
+      //                </TwoColumn>
+      //                           {" "}
+      //             </FormSection>
+      //                        {" "}
+      //             <FormSection title="College Information">
+      //                             {" "}
+      //                <TwoColumn>
+      //                                  {" "}
+      //                   <InputField
+      //                      label="Admission Year"
+      //                      name="admissionYear"
+      //                      value={formData.admissionYear}
+      //                      onChange={handleChange}
+      //                      type="number"
+      //                   />
+      //                   <InputField
+      //                      label="Current Semester"
+      //                      name="currentSemester"
+      //                      value={formData.currentSemester}
+      //                      onChange={handleChange}
+      //                      type="number"
+      //                   />
+      //                                  {" "}
+      //                   <div>
+      //                                       {" "}
+      //                      <label className="block mb-1">Department</label>
+      //                                 {" "}
+      //                      <select
+      //                         id="department"
+      //                         name="department"
+      //                         value={formData.department}
+      //                         onChange={handleChange}
+      //                         required
+      //                         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      //                      >
+      //                                            {" "}
+      //                         <option value="">Select Department</option>
+      //                                    {" "}
+      //                         {departments.map((dept) => (
+      //                            <option key={dept._id} value={dept._id}>
+      //                                                      {" "}
+      //                               {dept.departmentName}                     {" "}
+      //                            </option>
+      //                         ))}
+      //                                          {" "}
+      //                      </select>
+      //                                     {" "}
+      //                   </div>
+      //                                {" "}
+      //                </TwoColumn>
+      //                           {" "}
+      //             </FormSection>
+      //                        {" "}
+      //             <div className="flex justify-end">
+      //                             {" "}
+      //                <button
+      //                   type="submit"
+      //                   className="mt-4 p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+      //                >
+      //                                   Update Profile              {" "}
+      //                </button>
+      //                           {" "}
+      //             </div>
+      //                      {" "}
+      //          </motion.form>
+      //                 {" "}
+      //       </section>
+      //            {" "}
+      //    </article>
+      //       {" "}
+      // </main>
+      <main className="h-screen w-screen bg-lightBackground dark:bg-darkBackground text-primaryBlack dark:text-primaryWhite flex flex-col">
+         <StudentHeader />
+
+         <article className="flex-1 grid grid-cols-2 overflow-hidden mx-20 mt-8">
+            {/* Left Column: Basic Details, Contact, Address */}
+            <section className="overflow-y-auto p-4 ">
                <motion.form
                   onSubmit={handleSubmit}
-                  className="space-y-6"
+                  className="space-y-4"
                   initial={{ scale: 0.95 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.3 }}
                >
-                             {" "}
                   <FormSection title="Basic Details">
-                                  {" "}
                      <TwoColumn>
-                                       {" "}
                         <InputField
                            label="Full Name"
                            name="studentName"
@@ -869,7 +1078,6 @@ function StudentProfile() {
                            onChange={handleChange}
                            disabled
                         />
-                                       {" "}
                         <InputField
                            label="Date of Birth"
                            name="dateOfBirth"
@@ -877,15 +1085,11 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="date"
                         />
-                                     {" "}
                      </TwoColumn>
-                                {" "}
                   </FormSection>
-                             {" "}
+
                   <FormSection title="Contact Information">
-                                  {" "}
                      <TwoColumn>
-                                       {" "}
                         <InputField
                            label="Email"
                            name="eMail"
@@ -894,74 +1098,51 @@ function StudentProfile() {
                            type="email"
                            disabled
                         />
-                                       {" "}
                         <InputField
                            label="Phone Number"
                            name="contactNumber"
                            value={formData.contactNumber}
                            onChange={handleChange}
                         />
-                                     {" "}
                      </TwoColumn>
-                                {" "}
                   </FormSection>
-                             {" "}
+
                   <FormSection title="Address Information">
-                                  {" "}
                      <TwoColumn>
-                                       {" "}
                         <InputField
                            label="City"
                            name="localArea"
                            value={formData.localArea}
                            onChange={handleChange}
                         />
-                                       {" "}
                         <InputField
                            label="Pin Code"
                            name="pinCode"
                            value={formData.pinCode}
                            onChange={handleChange}
                         />
-                                       {" "}
                         <InputField
                            label="Post Office"
                            name="postOffice"
                            value={formData.postOffice}
                            onChange={handleChange}
                         />
-                                     {" "}
                      </TwoColumn>
-                                {" "}
                   </FormSection>
-                             {" "}
-                  <FormSection title="MAKAUT Information">
-                                  {" "}
-                     <TwoColumn>
-                                       {" "}
-                        <InputField
-                           label="Roll Number"
-                           name="rollNumber"
-                           value={formData.rollNumber}
-                           onChange={handleChange}
-                           disabled
-                        />
-                                       {" "}
-                        <InputField
-                           label="Registration Number"
-                           name="registrationNumber"
-                           value={formData.registrationNumber}
-                           onChange={handleChange}
-                        />
-                                     {" "}
-                     </TwoColumn>
-                                {" "}
-                  </FormSection>
-                             {" "}
+               </motion.form>
+            </section>
+
+            {/* Right Column: Marks info, MAKAUT info, College info */}
+            <section className="overflow-y-auto p-4">
+               <motion.form
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                  initial={{ scale: 0.95 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+               >
                   <FormSection title="Marks Information">
-                                  {" "}
                      <TwoColumn>
-                                       {" "}
                         <InputField
                            label="X Marks"
                            name="xMarks"
@@ -969,7 +1150,6 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
-                                       {" "}
                         <InputField
                            label="XII Marks"
                            name="xiiMarks"
@@ -977,7 +1157,6 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
-                                       {" "}
                         <InputField
                            label="Diploma Marks"
                            name="diplomaMarks"
@@ -985,15 +1164,29 @@ function StudentProfile() {
                            onChange={handleChange}
                            type="number"
                         />
-                                     {" "}
                      </TwoColumn>
-                                {" "}
                   </FormSection>
-                             {" "}
-                  <FormSection title="College Information">
-                                  {" "}
+
+                  <FormSection title="MAKAUT Information">
                      <TwoColumn>
-                                       {" "}
+                        <InputField
+                           label="Roll Number"
+                           name="rollNumber"
+                           value={formData.rollNumber}
+                           onChange={handleChange}
+                           disabled
+                        />
+                        <InputField
+                           label="Registration Number"
+                           name="registrationNumber"
+                           value={formData.registrationNumber}
+                           onChange={handleChange}
+                        />
+                     </TwoColumn>
+                  </FormSection>
+
+                  <FormSection title="College Information">
+                     <TwoColumn>
                         <InputField
                            label="Admission Year"
                            name="admissionYear"
@@ -1007,55 +1200,41 @@ function StudentProfile() {
                            value={formData.currentSemester}
                            onChange={handleChange}
                            type="number"
+                           min={1}
+                           max={8}
                         />
-                                       {" "}
                         <div>
-                                            {" "}
-                           <label className="block mb-1">Department</label>     
-                                      {" "}
+                           <label className="block mb-1">Department</label>
                            <select
                               id="department"
                               name="department"
                               value={formData.department}
                               onChange={handleChange}
                               required
-                              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              className="w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                            >
-                                                 {" "}
-                              <option value="">Select Department</option>       
-                                         {" "}
+                              <option value="">Select Department</option>
                               {departments.map((dept) => (
                                  <option key={dept._id} value={dept._id}>
-                                                           {" "}
-                                    {dept.departmentName}                     {" "}
+                                    {dept.departmentName}
                                  </option>
                               ))}
-                                               {" "}
                            </select>
-                                          {" "}
                         </div>
-                                     {" "}
                      </TwoColumn>
-                                {" "}
                   </FormSection>
-                             {" "}
+
                   <div className="flex justify-end">
-                                  {" "}
                      <button
                         type="submit"
-                        className="mt-4 p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-sm"
                      >
-                                        Update Profile              {" "}
+                        Update Profile
                      </button>
-                                {" "}
                   </div>
-                           {" "}
                </motion.form>
-                      {" "}
             </section>
-                 {" "}
          </article>
-            {" "}
       </main>
    );
 }
@@ -1064,13 +1243,16 @@ export default StudentProfile;
 
 // Reusable Layout Components
 const FormSection = ({ title, children }) => (
-   <section className="space-y-2">
-          <h3 className="text-lg font-semibold">{title}</h3>    {children} {" "}
+   <section className="space-y-1">
+      <h3 className="text-base text-primaryBlack dark:text-primaryWhite font-semibold">
+         {title}
+      </h3>{" "}
+      {children}
    </section>
 );
 
 const TwoColumn = ({ children }) => (
-   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
+   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">{children}</div>
 );
 
 const InputField = ({
@@ -1082,11 +1264,12 @@ const InputField = ({
    disabled = false,
 }) => (
    <div>
-         {" "}
-      <label className="block text-gray-700 mb-1" htmlFor={name}>
-               {label}   {" "}
+      <label
+         className="block text-primaryBlack dark:text-primaryWhite mb-0.5 text-sm"
+         htmlFor={name}
+      >
+         {label}
       </label>
-         {" "}
       <input
          type={type}
          id={name}
@@ -1095,8 +1278,7 @@ const InputField = ({
          onChange={onChange}
          required
          disabled={disabled}
-         className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+         className="w-[80%] px-3 py-1.5 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-       {" "}
    </div>
 );

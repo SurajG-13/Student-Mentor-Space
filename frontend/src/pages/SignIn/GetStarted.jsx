@@ -41,24 +41,14 @@ function GetStarted() {
 
                <ul className="mt-8 space-y-4 md:space-y-0 md:flex md:space-x-6 justify-center md:justify-start">
                   <li>
-                     <motion.button
-                        whileHover={{ backgroundColor: "#16423C" }}
-                        ref={signInBoxClickedRef}
-                        onClick={() => handleButtonClick("Teacher")}
-                        className="inline-flex text-lg md:text-2xl relative bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3"
-                     >
+                     <motion.button className="cursor-not-allowed inline-flex text-lg md:text-2xl relative bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3">
                         I am a Teacher
                         <HiArrowUpRight className="ml-2" />
                      </motion.button>
                   </li>
 
                   <li>
-                     <motion.button
-                        whileHover={{ backgroundColor: "#16423C" }}
-                        ref={signInBoxClickedRef}
-                        onClick={() => handleButtonClick("Student")}
-                        className="inline-flex text-lg md:text-2xl relative bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3"
-                     >
+                     <motion.button className="cursor-not-allowed inline-flex text-lg md:text-2xl relative bg-green-500 text-highlightWhite rounded-3xl px-6 py-2 md:px-8 md:py-3">
                         I am a Student
                         <HiArrowUpRight className="ml-2" />
                      </motion.button>

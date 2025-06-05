@@ -217,7 +217,11 @@ import {
    UserCircleIcon,
    PowerIcon,
    MagnifyingGlassIcon,
+   UserGroupIcon,
+   BookOpenIcon,
+   AcademicCapIcon,
 } from "@heroicons/react/24/outline";
+
 import TeacherHeader from "./TeacherHeader";
 
 // const API_BASE_URL =
@@ -337,77 +341,79 @@ function T_Home() {
    const teacherName = useSelector((state) => state.user.teacherInfo.name);
 
    return (
-      <main className="w-screen h-screen border-4 border-blue-500">
+      <main className="w-screen h-screen  overflow-x-hidden">
          <TeacherHeader />
          <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
             {/* Main content */}
             <div className="flex flex-col flex-1 min-h-screen">
                {/* Content */}
-               <main className="flex-1 overflow-y-auto p-6 md:p-10 bg-gray-50 dark:bg-gray-900">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+               <main className=" flex-1  p-6 md:p-10 bg-gray-50 dark:bg-gray-900">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                      {/* Registered Students */}
-                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex flex-col justify-between">
+                     <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md">
+                        <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg flex-shrink-0">
+                           <UserGroupIcon className="w-7 h-7" />
+                        </div>
                         <div>
-                           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                              Registered Students
-                           </h3>
-                           <p className="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
+                           <p className="text-2xl font-semibold">
                               {loading
                                  ? "Loading..."
                                  : error
                                    ? error
                                    : studentCount}
                            </p>
-                        </div>
-                        <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                           Updated just now
+                           <p className="text-gray-600 dark:text-gray-400">
+                              Registered Students
+                           </p>
                         </div>
                      </div>
 
-                     {/* Courses Offered - hardcoded as 8 (update if dynamic) */}
-                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex flex-col justify-between">
+                     {/* Courses Offered */}
+                     <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md">
+                        <div className="bg-green-100 dark:bg-green-900 p-3 rounded-lg flex-shrink-0">
+                           {/* Add your icon here */}
+                           <AcademicCapIcon className="w-7 h-7" />
+                        </div>
                         <div>
-                           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                              Courses Offered
-                           </h3>
-                           <p className="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
+                           <p className="text-2xl font-semibold">
                               {loading
                                  ? "Loading..."
                                  : error
                                    ? error
                                    : departmentCount}
                            </p>
-                        </div>
-                        <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                           Updated just now
+                           <p className="text-gray-600 dark:text-gray-400">
+                              Departments
+                           </p>
                         </div>
                      </div>
 
-                     {/* Total Subjects - placeholder, update as needed */}
-                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 flex flex-col justify-between">
+                     {/* Total Subjects */}
+                     <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md">
+                        <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-lg flex-shrink-0">
+                           {/* Add your icon here */}
+                           <BookOpenIcon className="w-7 h-7" />
+                        </div>
                         <div>
-                           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                              Total Subjects
-                           </h3>
-                           <p className="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
+                           <p className="text-2xl font-semibold">
                               {loading
                                  ? "Loading..."
                                  : error
                                    ? error
                                    : subjectCount}
                            </p>
-                        </div>
-                        <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                           Updated just now
+                           <p className="text-gray-600 dark:text-gray-400">
+                              Subjects Taught
+                           </p>
                         </div>
                      </div>
                   </div>
 
                   {/* Search result section */}
-                  <section className="mt-10 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                     <div className="flex-1 ml-0 md:ml-[5rem] p-6 md:p-10">
+                  <section className="mt-10 bg-white dark:bg-gray-800 rounded-lg">
+                     <div className="flex-1 min-h-[50vh]">
                         {!isClicked ? (
-                           <div className="mt-20 flex justify-center items-center px-4">
+                           <div className="w-inherit h-[50vh] flex justify-center items-center px-4">
                               <div className="relative w-full max-w-lg">
                                  <input
                                     type="text"

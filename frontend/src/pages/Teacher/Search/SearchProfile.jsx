@@ -807,6 +807,412 @@
 
 // export default SearchProfile;
 
+// import React, { useState, useEffect } from "react";
+// import { motion } from "framer-motion";
+// import axios from "axios";
+
+// function SearchProfile() {
+//    const [formData, setFormData] = useState({
+//       studentName: "",
+//       eMail: "",
+//       contactNumber: "",
+//       dateOfBirth: "",
+//       registrationNumber: "",
+//       rollNumber: "",
+//       department: {},
+//       localArea: "",
+//       postOffice: "",
+//       pinCode: "",
+//       xMarks: "",
+//       xiiMarks: "",
+//       diplomaMarks: "",
+//       admissionYear: "",
+//    });
+
+//    const [loading, setLoading] = useState(true);
+//    const [error, setError] = useState(null);
+
+//    const rollNumber = localStorage.getItem("inputValue");
+
+//    useEffect(() => {
+//       const fetchStudentData = async () => {
+//          setLoading(true);
+//          setError(null);
+
+//          try {
+//             if (!rollNumber) {
+//                setError("No roll number provided.");
+//                setLoading(false);
+//                return;
+//             }
+
+//             const response = await axios.get(
+//                `http://localhost:8000/api/v1/students/profile/${rollNumber}`
+//             );
+//             setFormData(response.data);
+//          } catch (error) {
+//             console.error("Error fetching student data:", error);
+
+//             if (error.response?.status === 404) {
+//                setError("Student Does Not Exist.");
+//             } else {
+//                setError("Failed to fetch student data. Please try again.");
+//             }
+//             setFormData({
+//                studentName: "",
+//                eMail: "",
+//                contactNumber: "",
+//                dateOfBirth: "",
+//                registrationNumber: "",
+//                rollNumber: "",
+//                department: {},
+//                localArea: "",
+//                postOffice: "",
+//                pinCode: "",
+//                xMarks: "",
+//                xiiMarks: "",
+//                diplomaMarks: "",
+//                admissionYear: "",
+//             });
+//          } finally {
+//             setLoading(false);
+//          }
+//       };
+
+//       fetchStudentData();
+//    }, [rollNumber]);
+
+//    if (loading) {
+//       return (
+//          <div className="flex items-center justify-center h-screen text-gray-600 text-xl">
+//             Loading student profile...
+//          </div>
+//       );
+//    }
+
+//    if (error) {
+//       return (
+//          <div className="flex items-start justify-center text-red-600 text-2xl font-semibold">
+//             {error}
+//          </div>
+//       );
+//    }
+
+//    return (
+//       <main className="min-h-screen w-full bg-gray-50 dark:bg-gray-900 p-4 md:p-10">
+//          <section className="max-w-7xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-10">
+//             <motion.div
+//                initial={{ opacity: 0, y: 10 }}
+//                animate={{ opacity: 1, y: 0 }}
+//                transition={{ duration: 0.4 }}
+//                className="grid grid-cols-1 md:grid-cols-2 gap-10"
+//             >
+//                {/* Basic Details */}
+//                <section>
+//                   <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+//                      Basic Details
+//                   </h3>
+//                   <div className="space-y-6">
+//                      <div>
+//                         <label
+//                            htmlFor="studentName"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Full Name
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="studentName"
+//                            name="studentName"
+//                            value={formData.studentName || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Full Name"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="dateOfBirth"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Date of Birth
+//                         </label>
+//                         <input
+//                            type="date"
+//                            id="dateOfBirth"
+//                            name="dateOfBirth"
+//                            value={formData.dateOfBirth?.slice(0, 10) || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                         />
+//                      </div>
+//                   </div>
+//                </section>
+
+//                {/* Contact Information */}
+//                <section>
+//                   <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+//                      Contact Information
+//                   </h3>
+//                   <div className="space-y-6">
+//                      <div>
+//                         <label
+//                            htmlFor="eMail"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Email
+//                         </label>
+//                         <input
+//                            type="email"
+//                            id="eMail"
+//                            name="eMail"
+//                            value={formData.eMail || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Email"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="contactNumber"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Phone Number
+//                         </label>
+//                         <input
+//                            type="tel"
+//                            id="contactNumber"
+//                            name="contactNumber"
+//                            value={formData.contactNumber || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Phone Number"
+//                         />
+//                      </div>
+//                   </div>
+//                </section>
+
+//                {/* Address Information */}
+//                <section>
+//                   <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+//                      Address Information
+//                   </h3>
+//                   <div className="space-y-6">
+//                      <div>
+//                         <label
+//                            htmlFor="localArea"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            City
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="localArea"
+//                            name="localArea"
+//                            value={formData.localArea || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="City"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="pinCode"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Pin Code
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="pinCode"
+//                            name="pinCode"
+//                            value={formData.pinCode || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Pin Code"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="postOffice"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Post Office
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="postOffice"
+//                            name="postOffice"
+//                            value={formData.postOffice || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Post Office"
+//                         />
+//                      </div>
+//                   </div>
+//                </section>
+
+//                {/* MAKAUT Information */}
+//                <section>
+//                   <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+//                      MAKAUT Information
+//                   </h3>
+//                   <div className="space-y-6">
+//                      <div>
+//                         <label
+//                            htmlFor="rollNumber"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Roll Number
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="rollNumber"
+//                            name="rollNumber"
+//                            value={formData.rollNumber || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Roll Number"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="registrationNumber"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Registration Number
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="registrationNumber"
+//                            name="registrationNumber"
+//                            value={formData.registrationNumber || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Registration Number"
+//                         />
+//                      </div>
+//                   </div>
+//                </section>
+
+//                {/* Marks Information */}
+//                <section>
+//                   <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+//                      Marks Information
+//                   </h3>
+//                   <div className="space-y-6">
+//                      <div>
+//                         <label
+//                            htmlFor="xMarks"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            X Marks
+//                         </label>
+//                         <input
+//                            type="number"
+//                            id="xMarks"
+//                            name="xMarks"
+//                            value={formData.xMarks || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="X Marks"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="xiiMarks"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            XII Marks
+//                         </label>
+//                         <input
+//                            type="number"
+//                            id="xiiMarks"
+//                            name="xiiMarks"
+//                            value={formData.xiiMarks || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="XII Marks"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="diplomaMarks"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Diploma Marks
+//                         </label>
+//                         <input
+//                            type="number"
+//                            id="diplomaMarks"
+//                            name="diplomaMarks"
+//                            value={formData.diplomaMarks || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Diploma Marks"
+//                         />
+//                      </div>
+//                   </div>
+//                </section>
+
+//                {/* College Information */}
+//                <section>
+//                   <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+//                      College Information
+//                   </h3>
+//                   <div className="space-y-6">
+//                      <div>
+//                         <label
+//                            htmlFor="admissionYear"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Admission Year
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="admissionYear"
+//                            name="admissionYear"
+//                            value={formData.admissionYear || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+//                            placeholder="Admission Year"
+//                         />
+//                      </div>
+
+//                      <div>
+//                         <label
+//                            htmlFor="department"
+//                            className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
+//                         >
+//                            Department
+//                         </label>
+//                         <input
+//                            type="text"
+//                            id="department"
+//                            name="department"
+//                            value={formData.department?.departmentName || ""}
+//                            disabled
+//                            className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-primaryBlack dark:text-primaryWhite cursor-not-allowed"
+//                            placeholder="Department"
+//                         />
+//                      </div>
+//                   </div>
+//                </section>
+//             </motion.div>
+//          </section>
+//       </main>
+//    );
+// }
+
+// export default SearchProfile;
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -827,6 +1233,7 @@ function SearchProfile() {
       xiiMarks: "",
       diplomaMarks: "",
       admissionYear: "",
+      currentSemester: "",
    });
 
    const [loading, setLoading] = useState(true);
@@ -873,6 +1280,7 @@ function SearchProfile() {
                xiiMarks: "",
                diplomaMarks: "",
                admissionYear: "",
+               currentSemester: "",
             });
          } finally {
             setLoading(false);
@@ -892,323 +1300,154 @@ function SearchProfile() {
 
    if (error) {
       return (
-         <div className="flex items-start justify-center text-red-600 text-2xl font-semibold">
+         <div className="flex items-start justify-center h-screen text-red-600 text-2xl font-semibold p-4">
             {error}
          </div>
       );
    }
 
    return (
-      <main className="min-h-screen w-full bg-gray-50 dark:bg-gray-900 p-4 md:p-10">
-         <section className="max-w-7xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-10">
-            <motion.div
-               initial={{ opacity: 0, y: 10 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.4 }}
-               className="grid grid-cols-1 md:grid-cols-2 gap-10"
-            >
-               {/* Basic Details */}
-               <section>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                     Basic Details
-                  </h3>
-                  <div className="space-y-6">
-                     <div>
-                        <label
-                           htmlFor="studentName"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Full Name
-                        </label>
-                        <input
-                           type="text"
-                           id="studentName"
+      <main className=" flex flex-col">
+         {/* <section className="border-4 border-red-600 flex-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden grid grid-cols-1 md:grid-cols-2"> */}
+         <article className="flex-1 grid grid-cols-2 overflow-hidden mx-20 mt-8">
+            {/* Left Column: Basic Details, Contact, Address */}
+            <section className="overflow-y-auto p-4 ">
+               <motion.form
+                  className="space-y-4"
+                  initial={{ scale: 0.95 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+               >
+                  <FormSection title="Basic Details">
+                     <TwoColumn>
+                        <InputDisplay
+                           label="Full Name"
                            name="studentName"
-                           value={formData.studentName || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Full Name"
+                           value={formData.studentName}
                         />
-                     </div>
-
-                     <div>
-                        <label
-                           htmlFor="dateOfBirth"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Date of Birth
-                        </label>
-                        <input
-                           type="date"
-                           id="dateOfBirth"
-                           name="dateOfBirth"
-                           value={formData.dateOfBirth?.slice(0, 10) || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+                        <InputDisplay
+                           label="Date of Birth"
+                           value={
+                              formData.dateOfBirth
+                                 ? formData.dateOfBirth.substring(0, 10)
+                                 : ""
+                           }
                         />
-                     </div>
-                  </div>
-               </section>
+                     </TwoColumn>
+                  </FormSection>
 
-               {/* Contact Information */}
-               <section>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                     Contact Information
-                  </h3>
-                  <div className="space-y-6">
-                     <div>
-                        <label
-                           htmlFor="eMail"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Email
-                        </label>
-                        <input
-                           type="email"
-                           id="eMail"
-                           name="eMail"
-                           value={formData.eMail || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Email"
+                  <FormSection title="Contact Information">
+                     <TwoColumn>
+                        <InputDisplay label="Email" value={formData.eMail} />
+                        <InputDisplay
+                           label="Phone Number"
+                           value={formData.contactNumber}
                         />
-                     </div>
+                     </TwoColumn>
+                  </FormSection>
 
-                     <div>
-                        <label
-                           htmlFor="contactNumber"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Phone Number
-                        </label>
-                        <input
-                           type="tel"
-                           id="contactNumber"
-                           name="contactNumber"
-                           value={formData.contactNumber || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Phone Number"
+                  <FormSection title="Address Information">
+                     <TwoColumn>
+                        <InputDisplay label="City" value={formData.localArea} />
+                        <InputDisplay
+                           label="Pin Code"
+                           value={formData.pinCode}
                         />
-                     </div>
-                  </div>
-               </section>
-
-               {/* Address Information */}
-               <section>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                     Address Information
-                  </h3>
-                  <div className="space-y-6">
-                     <div>
-                        <label
-                           htmlFor="localArea"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           City
-                        </label>
-                        <input
-                           type="text"
-                           id="localArea"
-                           name="localArea"
-                           value={formData.localArea || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="City"
+                        <InputDisplay
+                           label="Post Office"
+                           value={formData.postOffice}
                         />
-                     </div>
+                     </TwoColumn>
+                  </FormSection>
+               </motion.form>
+            </section>
 
-                     <div>
-                        <label
-                           htmlFor="pinCode"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Pin Code
-                        </label>
-                        <input
-                           type="text"
-                           id="pinCode"
-                           name="pinCode"
-                           value={formData.pinCode || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Pin Code"
+            {/* Right Column: Marks info, MAKAUT info, College info */}
+            <section className="overflow-y-auto p-4">
+               <motion.form
+                  className="space-y-4"
+                  initial={{ scale: 0.95 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+               >
+                  <FormSection title="Marks Information">
+                     <TwoColumn>
+                        <InputDisplay label="X Marks" value={formData.xMarks} />
+                        <InputDisplay
+                           label="XII Marks"
+                           value={formData.xiiMarks}
                         />
-                     </div>
-
-                     <div>
-                        <label
-                           htmlFor="postOffice"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Post Office
-                        </label>
-                        <input
-                           type="text"
-                           id="postOffice"
-                           name="postOffice"
-                           value={formData.postOffice || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Post Office"
+                        <InputDisplay
+                           label="Diploma Marks"
+                           value={formData.diplomaMarks}
                         />
-                     </div>
-                  </div>
-               </section>
+                     </TwoColumn>
+                  </FormSection>
 
-               {/* MAKAUT Information */}
-               <section>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                     MAKAUT Information
-                  </h3>
-                  <div className="space-y-6">
-                     <div>
-                        <label
-                           htmlFor="rollNumber"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Roll Number
-                        </label>
-                        <input
-                           type="text"
-                           id="rollNumber"
-                           name="rollNumber"
-                           value={formData.rollNumber || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Roll Number"
+                  <FormSection title="MAKAUT Information">
+                     <TwoColumn>
+                        <InputDisplay
+                           label="Roll Number"
+                           value={formData.rollNumber}
                         />
-                     </div>
-
-                     <div>
-                        <label
-                           htmlFor="registrationNumber"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Registration Number
-                        </label>
-                        <input
-                           type="text"
-                           id="registrationNumber"
-                           name="registrationNumber"
-                           value={formData.registrationNumber || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Registration Number"
+                        <InputDisplay
+                           label="Registration Number"
+                           value={formData.registrationNumber}
                         />
-                     </div>
-                  </div>
-               </section>
+                     </TwoColumn>
+                  </FormSection>
 
-               {/* Marks Information */}
-               <section>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                     Marks Information
-                  </h3>
-                  <div className="space-y-6">
-                     <div>
-                        <label
-                           htmlFor="xMarks"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           X Marks
-                        </label>
-                        <input
-                           type="number"
-                           id="xMarks"
-                           name="xMarks"
-                           value={formData.xMarks || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="X Marks"
+                  <FormSection title="College Information">
+                     <TwoColumn>
+                        <InputDisplay
+                           label="Admission Year"
+                           value={formData.admissionYear}
                         />
-                     </div>
-
-                     <div>
-                        <label
-                           htmlFor="xiiMarks"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           XII Marks
-                        </label>
-                        <input
-                           type="number"
-                           id="xiiMarks"
-                           name="xiiMarks"
-                           value={formData.xiiMarks || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="XII Marks"
+                        <InputDisplay
+                           label="Current Semester"
+                           value={formData.currentSemester}
                         />
-                     </div>
-
-                     <div>
-                        <label
-                           htmlFor="diplomaMarks"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Diploma Marks
-                        </label>
-                        <input
-                           type="number"
-                           id="diplomaMarks"
-                           name="diplomaMarks"
-                           value={formData.diplomaMarks || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Diploma Marks"
-                        />
-                     </div>
-                  </div>
-               </section>
-
-               {/* College Information */}
-               <section>
-                  <h3 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
-                     College Information
-                  </h3>
-                  <div className="space-y-6">
-                     <div>
-                        <label
-                           htmlFor="admissionYear"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Admission Year
-                        </label>
-                        <input
-                           type="text"
-                           id="admissionYear"
-                           name="admissionYear"
-                           value={formData.admissionYear || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
-                           placeholder="Admission Year"
-                        />
-                     </div>
-
-                     <div>
-                        <label
-                           htmlFor="department"
-                           className="block text-gray-700 dark:text-gray-300 mb-2 font-medium"
-                        >
-                           Department
-                        </label>
-                        <input
-                           type="text"
-                           id="department"
-                           name="department"
+                        <InputDisplay
+                           label="Department"
                            value={formData.department?.departmentName || ""}
-                           disabled
-                           className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-primaryBlack dark:text-primaryWhite cursor-not-allowed"
-                           placeholder="Department"
                         />
-                     </div>
-                  </div>
-               </section>
-            </motion.div>
-         </section>
+                     </TwoColumn>
+                  </FormSection>
+               </motion.form>
+            </section>
+         </article>
+         {/* </section> */}
       </main>
    );
 }
+
+// Reusable component for displaying disabled inputs consistently
+const InputDisplay = ({ label, value, type = "text" }) => (
+   <div>
+      <label className="block text-primaryBlack dark:text-primaryWhite mb-0.5 text-sm">
+         {label}
+      </label>
+      <input
+         type={type}
+         value={value || ""}
+         disabled
+         // className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+         readOnly
+         className="w-[90%] px-3 py-1.5 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+   </div>
+);
+const FormSection = ({ title, children }) => (
+   <section className="space-y-1">
+      <h3 className="text-base text-primaryBlack dark:text-primaryWhite font-semibold">
+         {title}
+      </h3>{" "}
+      {children}
+   </section>
+);
+
+const TwoColumn = ({ children }) => (
+   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">{children}</div>
+);
 
 export default SearchProfile;

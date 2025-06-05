@@ -164,11 +164,11 @@ function SubjectManager() {
    };
 
    return (
-      <main className="w-screen min-h-screen border-4 border-blue-500">
+      <main className="w-screen min-h-screen bg-lightBackground dark:bg-darkBackground">
          <TeacherHeader />
          <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">
-               Subject Manager & Viewer
+            <h1 className="text-3xl font-bold mb-6 text-center text-primaryBlack dark:text-primaryWhite">
+               Subject Manager
             </h1>
 
             {error && (
@@ -182,9 +182,9 @@ function SubjectManager() {
                onSubmit={handleSubmit}
                initial={{ opacity: 0, y: -10 }}
                animate={{ opacity: 1, y: 0 }}
-               className="bg-white p-6 rounded shadow mb-10"
+               className="bg-lightBackground dark:bg-darkBackground border p-6 rounded shadow mb-10"
             >
-               <h2 className="text-xl font-semibold mb-4">
+               <h2 className="text-xl font-semibold mb-4  text-primaryBlack dark:text-primaryWhite">
                   {editingId ? "Edit Subject" : "Add New Subject"}
                </h2>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -298,18 +298,31 @@ function SubjectManager() {
             ) : (
                <div className="overflow-x-auto">
                   <table className="min-w-full border rounded shadow">
-                     <thead className="bg-gray-100">
+                     <thead className="bg-lightBackground dark:bg-darkBackground">
                         <tr>
-                           <th className="p-2 border">Name</th>
-                           <th className="p-2 border">UPID</th>
-                           <th className="p-2 border">Credit Points</th>
-                           <th className="p-2 border">Semester</th>
-                           <th className="p-2 border">Actions</th>
+                           <th className=" text-primaryBlack dark:text-primaryWhite p-2 border">
+                              Name
+                           </th>
+                           <th className=" text-primaryBlack dark:text-primaryWhite -2 border">
+                              UPID
+                           </th>
+                           <th className=" text-primaryBlack dark:text-primaryWhite p-2 border">
+                              Credit Points
+                           </th>
+                           <th className=" text-primaryBlack dark:text-primaryWhite p-2 border">
+                              Semester
+                           </th>
+                           <th className=" text-primaryBlack dark:text-primaryWhite p-2 border">
+                              Actions
+                           </th>
                         </tr>
                      </thead>
                      <tbody>
                         {subjects.map((s) => (
-                           <tr key={s._id} className="text-center">
+                           <tr
+                              key={s._id}
+                              className="text-center  text-primaryBlack dark:text-primaryWhite"
+                           >
                               <td className="p-2 border">{s.subjectName}</td>
                               <td className="p-2 border">{s.subjectCode}</td>
 

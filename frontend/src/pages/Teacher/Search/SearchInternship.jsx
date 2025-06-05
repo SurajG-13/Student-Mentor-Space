@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function SearchInternship() {
-   const [rollNumber, setRollNumber] = useState("");
+   // const [rollNumber, setRollNumber] = useState("");
    const [internships, setInternships] = useState([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(null);
 
    const token = localStorage.getItem("token");
+   const rollNumber = localStorage.getItem("rollNumber");
 
    useEffect(() => {
       if (!token) {
@@ -53,14 +54,10 @@ function SearchInternship() {
       fetchInternships();
    }, [rollNumber, token]);
 
-   const handleInputChange = (e) => {
-      setRollNumber(e.target.value.trim());
-   };
-
    return (
       <main className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden p-6">
          <section className="max-w-4xl mx-auto w-full">
-            <h1 className="text-3xl font-bold mb-6 text-center">
+            {/* <h1 className="text-3xl font-bold mb-6 text-center">
                Search Student Internships
             </h1>
 
@@ -72,7 +69,7 @@ function SearchInternship() {
                   onChange={handleInputChange}
                   className="border border-gray-300 rounded px-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
                />
-            </div>
+            </div> */}
 
             {loading && (
                <p className="text-center text-gray-600 dark:text-gray-400 font-semibold">

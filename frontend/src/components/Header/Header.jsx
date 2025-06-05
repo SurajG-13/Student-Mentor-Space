@@ -75,7 +75,7 @@ export default function Header() {
                   >
                      <Link
                         to="/signin"
-                        className="text-gray-800 hover:text-orange-700 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 
+                        className="text-gray-800 hover:text-orange-700 focus:ring-4 focus:ring-gray-300 
                          font-medium rounded-lg text-sm 
                          px-4 lg:px-5 py-2 lg:py-2.5 mr-2 
                          focus:outline-none dark:text-white"
@@ -92,81 +92,46 @@ export default function Header() {
                      >
                         Get started
                      </Link>
-                  </div>
 
-                  {/* Navigation */}
-                  <div
-                     className="hidden justify-between items-center 
-             w-full lg:flex lg:flex-row lg:w-auto lg:order-1"
-                     id="mobile-menu-2"
-                  >
-                     <ul
-                        className="flex flex-col mt-4 font-medium 
-                           lg:flex lg:flex-row lg:space-x-8 lg:mt-0 "
-                     >
+                     <ul className="flex items-center lg:ml-4">
                         <li>
-                           <NavLink
-                              to="/"
-                              className={({ isActive }) =>
-                                 `block py-2 pr-4 pl-3 duration-200
-           ${isActive ? "text-orange-500" : "text-gray-700"}
-           border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0
-           hover:text-orange-700 lg:p-0 dark:text-white`
-                              }
+                           <button
+                              onClick={onChangeTheme}
+                              className="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-neutral-800"
+                              aria-label="Toggle dark mode"
                            >
-                              Home
-                           </NavLink>
-                        </li>
-                        <li>
-                           <NavLink
-                              to="/about"
-                              className={({ isActive }) =>
-                                 `block py-2 pr-4 pl-3 duration-200
-           ${isActive ? "text-orange-500" : "text-gray-700"}
-           border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0
-           hover:text-orange-700 lg:p-0 dark:text-white`
-                              }
-                           >
-                              About
-                           </NavLink>
-                        </li>
-
-                        <li>
-                           <label className="relative inline-flex items-center cursor-pointer">
-                              <button onClick={onChangeTheme}>
-                                 {themeMode === "dark" ? (
-                                    <svg
-                                       xmlns="http://www.w3.org/2000/svg"
-                                       fill="none"
-                                       viewBox="0 0 24 24"
-                                       strokeWidth={1.5}
-                                       stroke="currentColor"
-                                       className="size-6"
-                                    >
-                                       <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                                       />
-                                    </svg>
-                                 ) : (
-                                    <svg
-                                       xmlns="http://www.w3.org/2000/svg"
-                                       fill="none"
-                                       viewBox="0 0 24 24"
-                                       strokeWidth={1.5}
-                                       stroke="currentColor"
-                                       className="size-6"
-                                    >
-                                       <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-                                       />
-                                    </svg>
-                                 )}
-                              </button>
-                           </label>
+                              {themeMode === "dark" ? (
+                                 <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={1.5}
+                                    className="w-6 h-6"
+                                 >
+                                    <path
+                                       strokeLinecap="round"
+                                       strokeLinejoin="round"
+                                       d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                                    />
+                                 </svg>
+                              ) : (
+                                 <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={1.5}
+                                    className="w-6 h-6"
+                                 >
+                                    <path
+                                       strokeLinecap="round"
+                                       strokeLinejoin="round"
+                                       d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                                    />
+                                 </svg>
+                              )}
+                           </button>
                         </li>
                      </ul>
                   </div>

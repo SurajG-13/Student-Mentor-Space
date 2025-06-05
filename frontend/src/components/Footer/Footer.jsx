@@ -26,6 +26,11 @@ const Footer = () => {
                      <h2 className="text-lg font-bold mb-4">Navigation</h2>
                      <ul className="space-y-2">
                         <li>
+                           <a href="/" className="hover:underline text-sm">
+                              Home
+                           </a>
+                        </li>
+                        <li>
                            <a
                               href="/signin"
                               className="hover:underline text-sm"
@@ -54,8 +59,23 @@ const Footer = () => {
                            </a>
                         </li>
                         <li>
-                           <a href="#" className="hover:underline text-sm">
+                           <a
+                              href="https://github.com/SurajG-13/Student-Mentor-Space"
+                              className="hover:underline text-sm"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                           >
                               GitHub
+                           </a>
+                        </li>
+                        <li>
+                           <a
+                              href="https://github.com/SurajG-13/Student-Mentor-Space"
+                              className="hover:underline text-sm"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                           >
+                              About Project
                            </a>
                         </li>
                      </ul>

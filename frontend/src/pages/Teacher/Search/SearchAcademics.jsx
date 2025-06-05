@@ -583,6 +583,7 @@ const initialMarksTemplate = {
 
 export default function SearchAcademics() {
    const [student, setStudent] = useState(null);
+
    const [semesterNo, setSemesterNo] = useState("");
    const [subjects, setSubjects] = useState([]);
    const [marksData, setMarksData] = useState({});
@@ -746,14 +747,6 @@ export default function SearchAcademics() {
 
    return (
       <div className="max-w-5xl mx-auto p-6">
-         <motion.h1
-            className="text-3xl font-bold mb-6 text-center"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-         >
-            Academic Marks Management
-         </motion.h1>
-
          <div className="mb-6 flex justify-center">
             <label
                htmlFor="semester"

@@ -15,6 +15,8 @@ const Register = () => {
       studentRoll: "",
    });
 
+   const teacherCode = import.meta.env.VITE_TEACHER_ACCESS_CODE; // imported from .env file
+
    const handleChange = (e) => {
       const { name, value } = e.target;
       setUserData((prevData) => ({
@@ -50,7 +52,7 @@ const Register = () => {
 
          if (
             userData.role === "Teacher" &&
-            userData.teacherAccessCode === "9090"
+            userData.teacherAccessCode === teacherCode
          ) {
             data = {
                fullName: userData.fullName,
