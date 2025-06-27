@@ -350,6 +350,7 @@ export const updateStudent = asyncHandler(async (req, res) => {
       xiiMarks,
       diplomaMarks,
       admissionYear,
+      currentSemester,
       // other fields...
    } = req.body;
 
@@ -381,6 +382,7 @@ export const updateStudent = asyncHandler(async (req, res) => {
             xiiMarks,
             diplomaMarks,
             admissionYear,
+            currentSemester,
             // other fields...
          },
       },

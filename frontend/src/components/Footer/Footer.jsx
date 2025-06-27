@@ -54,7 +54,12 @@ const Footer = () => {
                      <h2 className="text-lg font-bold mb-4">Resource</h2>
                      <ul className="space-y-2">
                         <li>
-                           <a href="#" className="hover:underline text-sm">
+                           <a
+                              href="https://drive.google.com/file/d/1dJREwUvdUlIesu7KYJSqrzZyhZDVxZtf/view?usp=sharing"
+                              className="hover:underline text-sm"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                           >
                               Documentation
                            </a>
                         </li>

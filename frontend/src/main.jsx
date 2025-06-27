@@ -43,6 +43,9 @@ import { useSelector } from "react-redux";
 import DepartmentManager from "./pages/Teacher/TeacherFunctions/DepartmentManager";
 import AttendanceManager from "./pages/Teacher/TeacherFunctions/AttendanceManager.jsx";
 import StudentAttendance from "./pages/Student/Attendance/StudentAttendance.jsx";
+import LabSubjectManager from "./pages/Teacher/TeacherFunctions/LabSubjectManager.jsx";
+import LabSubjectMarks from "./pages/Student/Academics/LabSubjectMarks.jsx";
+import AcademicMarksPage from "./pages/Student/Academics/AcademicMarksPage.jsx";
 
 function S_AcademicsWithToken() {
    const token = useSelector((state) => state.auth.token);
@@ -79,7 +82,15 @@ const router = createBrowserRouter(
                </StudentLayout>
             }
          />
-         <Route path="s_academics" element={<S_AcademicsWithToken />} />
+         <Route
+            path="s_academics"
+            element={
+               <StudentLayout>
+                  {" "}
+                  <AcademicMarksPage />
+               </StudentLayout>
+            }
+         />
          <Route
             path="sem1"
             element={
@@ -145,6 +156,14 @@ const router = createBrowserRouter(
                </TeacherLayout>
             }
          />{" "}
+         <Route
+            path="LabSubjectManager"
+            element={
+               <TeacherLayout>
+                  <LabSubjectManager />
+               </TeacherLayout>
+            }
+         />
          <Route
             path="DepartmentManager"
             element={

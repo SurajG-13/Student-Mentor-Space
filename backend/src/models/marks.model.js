@@ -49,7 +49,7 @@ const SubjectMarksSchema = new Schema({
    ca4: Number,
    pca1: Number,
    pca2: Number,
-   final: Number,
+   final: String,
 });
 
 const SemesterSchema = new Schema({

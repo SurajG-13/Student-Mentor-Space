@@ -908,6 +908,8 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import StudentHeader from "../HeaderLinks/StudentHeader.jsx";
+import { useSelector } from "react-redux";
+import LabSubjectMarks from "./LabSubjectMarks.jsx";
 
 const initialMarksTemplate = {
    ca1: "",
@@ -919,7 +921,7 @@ const initialMarksTemplate = {
    final: "",
 };
 
-export default function S_Academics({ token }) {
+export default function S_Academics() {
    const [student, setStudent] = useState(null);
    const [semesterNo, setSemesterNo] = useState("");
    const [subjects, setSubjects] = useState([]);
@@ -930,7 +932,8 @@ export default function S_Academics({ token }) {
    const [saving, setSaving] = useState(false);
    const [message, setMessage] = useState(null);
    const [error, setError] = useState(null);
-
+   const rollNumber = useSelector((state) => state.user.studentInfo.roll);
+   const token = useSelector((state) => state.auth.token);
    // Fetch logged-in student profile
    useEffect(() => {
       if (!token) {
@@ -1093,7 +1096,8 @@ export default function S_Academics({ token }) {
          ca4: parseFloat(marksData[sub._id]?.ca4) || 0,
          pca1: parseFloat(marksData[sub._id]?.pca1) || 0,
          pca2: parseFloat(marksData[sub._id]?.pca2) || 0,
-         final: parseFloat(marksData[sub._id]?.final) || 0,
+         // final: parseFloat(marksData[sub._id]?.final) || 0,
+         final: marksData[sub._id]?.final || "",
       }));
 
       try {
@@ -1189,7 +1193,7 @@ export default function S_Academics({ token }) {
 
             {semesterNo && subjects.length > 0 && (
                <form onSubmit={handleSubmit} className="overflow-x-auto">
-                  <table className="min-w-full border border-gray-300 rounded">
+                  <table className=" border border-gray-300 rounded">
                      <thead className="bg-gray-100">
                         <tr>
                            <th className="border px-4 py-2 text-left">
@@ -1217,10 +1221,9 @@ export default function S_Academics({ token }) {
                                        className="border px-2 py-1 text-center"
                                     >
                                        <input
-                                          type="number"
+                                          // type="number"
                                           min="0"
-                                          max="100"
-                                          step="0.01"
+                                          max="25"
                                           className="w-full border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                           value={
                                              marksData[subject._id]?.[field] ??
@@ -1262,6 +1265,9 @@ export default function S_Academics({ token }) {
                   No subjects found for this semester.
                </p>
             )}
+         </div>
+         <div className="border-3 border-red-900">
+            <LabSubjectMarks />
          </div>
       </main>
    );

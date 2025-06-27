@@ -56,6 +56,18 @@ function TeacherHeader() {
                      Subjects
                   </NavLink>
                   <NavLink
+                     to="/LabSubjectManager"
+                     className={({ isActive }) =>
+                        `inline-flex items-center px-1 pt-1  font-medium transition ${
+                           isActive
+                              ? "text-orange-600"
+                              : "text-gray-700 hover:text-orange-600 dark:text-gray-300"
+                        }`
+                     }
+                  >
+                     Lab
+                  </NavLink>
+                  <NavLink
                      to="/DepartmentManager"
                      className={({ isActive }) =>
                         `inline-flex items-center px-1 pt-1  font-medium transition ${

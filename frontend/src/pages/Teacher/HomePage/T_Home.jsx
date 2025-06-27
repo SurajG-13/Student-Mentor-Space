@@ -348,7 +348,7 @@ function T_Home() {
             <div className="flex flex-col flex-1 min-h-screen">
                {/* Content */}
                <main className=" flex-1  p-6 md:p-10 bg-gray-50 dark:bg-gray-900">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                      {/* Registered Students */}
                      <div className="flex items-center space-x-4 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md">
                         <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg flex-shrink-0">
