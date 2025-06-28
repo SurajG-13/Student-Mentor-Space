@@ -23,8 +23,7 @@ import TeacherLogIn from "./pages/SignIn/TeacherLogIn.jsx";
 
 // Student Interface Imports
 import S_Home from "./pages/Student/HomePage/S_Home.jsx";
-import S_Academics from "./pages/Student/Academics/S_Academics.jsx";
-import Sem1 from "./pages/Student/Academics/Sem1.jsx";
+
 import Project from "./pages/Student/Projects/Project.jsx";
 import StudentProfile from "./pages/Student/Profile/StudentProfile.jsx";
 import S_Certificate from "./pages/Student/Certification/S_Certifications.jsx";
@@ -44,7 +43,7 @@ import DepartmentManager from "./pages/Teacher/TeacherFunctions/DepartmentManage
 import AttendanceManager from "./pages/Teacher/TeacherFunctions/AttendanceManager.jsx";
 import StudentAttendance from "./pages/Student/Attendance/StudentAttendance.jsx";
 import LabSubjectManager from "./pages/Teacher/TeacherFunctions/LabSubjectManager.jsx";
-import LabSubjectMarks from "./pages/Student/Academics/LabSubjectMarks.jsx";
+
 import AcademicMarksPage from "./pages/Student/Academics/AcademicMarksPage.jsx";
 
 function S_AcademicsWithToken() {
@@ -88,14 +87,6 @@ const router = createBrowserRouter(
                <StudentLayout>
                   {" "}
                   <AcademicMarksPage />
-               </StudentLayout>
-            }
-         />
-         <Route
-            path="sem1"
-            element={
-               <StudentLayout>
-                  <Sem1 />
                </StudentLayout>
             }
          />

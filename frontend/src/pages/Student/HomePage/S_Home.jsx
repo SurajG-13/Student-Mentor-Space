@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import S_Sidebar from "../S_Sidebar";
 
 import {
    AcademicCapIcon,

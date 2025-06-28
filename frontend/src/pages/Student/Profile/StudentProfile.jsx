@@ -751,7 +751,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import S_Sidebar from "../S_Sidebar";
+
 import axios from "axios";
 import StudentHeader from "../HeaderLinks/StudentHeader";
 
